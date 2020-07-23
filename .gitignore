@@ -1,6 +1,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/macos,react,vim,dotenv,node,sublimetext
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,react,vim,dotenv,node,sublimetext
 
+build
+
 ### dotenv ###
 .env
 
