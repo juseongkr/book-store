@@ -1,0 +1,33 @@
+{
+  "name": "book-store-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "cd build && node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^3.23.3",
+    "mongoose": "^5.9.25",
+    "mongoose-unique-validator": "^2.0.3",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.7",
+    "@types/helmet": "0.0.47",
+    "@types/mongoose": "^5.7.32",
+    "@types/mongoose-unique-validator": "^1.0.4",
+    "@types/morgan": "^1.9.1",
+    "@types/node": "^14.0.23",
+    "typescript": "^3.9.7"
+  }
+}
