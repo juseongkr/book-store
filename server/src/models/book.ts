@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import uniqueValidator from 'mongoose-unique-validator';
 mongoose.set('useFindAndModify', false);
 
 const bookSchema = new mongoose.Schema({
@@ -45,5 +46,7 @@ bookSchema.set('toJSON', {
         delete obj.__v;
     }
 });
+
+bookSchema.plugin(uniqueValidator);
 
 export default mongoose.model('Book', bookSchema);

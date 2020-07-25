@@ -22,15 +22,44 @@ export const reducer = (state: State, action: Action): State => {
                 }
             };
         case 'DEL_BOOK':
-            const obj = {
+            const retBook = {
                 ...state,
                 books: {
                     ...state.books,
+                },
+            };
+            delete retBook.books[action.payload.isbn];
+
+            return retBook;
+        case 'SET_AUTHOR_LIST':
+            return {
+                ...state,
+                authors: {
+                    ...action.payload.reduce((init, author) => ({
+                        ...init,
+                        [author.ssn]: author,
+                    }), {}),
+                    ...state.authors,
                 }
             };
-            delete obj.books[action.payload.isbn];
+        case 'ADD_AUTHOR':
+            return {
+                ...state,
+                authors: {
+                    ...state.authors,
+                    [action.payload.ssn]: action.payload,
+                }
+            };
+        case 'DEL_AUTHOR':
+            const retAuthor = {
+                ...state,
+                authors: {
+                    ...state.authors,
+                },
+            };
+            delete retAuthor.authors[action.payload.ssn];
 
-            return obj;
+            return retAuthor;
         default:
             return state;
     }

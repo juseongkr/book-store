@@ -2,7 +2,8 @@ import React, { createContext, useContext, useReducer } from 'react';
 import { State, Action, StateProviderProps } from '../types';
 
 const initState: State = {
-    books: { }
+    books: { },
+    authors: { },
 };
 
 export const StateContext = createContext<[State, React.Dispatch<Action>]>([

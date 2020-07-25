@@ -5,13 +5,19 @@ mongoose.set('useFindAndModify', false);
 const authorSchema = new mongoose.Schema({
     ssn: {
         type: String,
+        minlength: 4,
         unique: true,
     },
     name: {
         type: String,
+        minlengh: 4,
         required: true,
     },
     birth: {
+        type: String,
+        required: false,
+    },
+    address: {
         type: String,
         required: false,
     },

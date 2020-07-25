@@ -1,18 +1,18 @@
 import React from 'react';
 import { Modal, Segment } from 'semantic-ui-react';
-import AddBookForm from './AddBookForm';
-import { BookModalProps } from '../types';
+import { AuthorModalProps } from '../types';
+import AddAuthorForm from './AddAuthorForm';
 
-const AddBookModal = ({ onSubmit, onClose, modalOpen, errMsg }: BookModalProps) => {
+const AddAuthorModal = ({ onSubmit, onClose, modalOpen, errMsg }: AuthorModalProps) => {
     return (
         <Modal open={ modalOpen } onClose={ onClose } centered={ false } closeIcon>
-            <Modal.Header>Add a new book</Modal.Header>
+            <Modal.Header>Add a new author</Modal.Header>
             <Modal.Content>
                 { errMsg && <Segment inverted color='red'>{ `Error: ${errMsg}` }</Segment> }
-                <AddBookForm onSubmit={ onSubmit } onClose={ onClose }/>
+                <AddAuthorForm onSubmit={ onSubmit } onClose={ onClose }/>
             </Modal.Content>
         </Modal>
     );
 };
 
-export default AddBookModal;
+export default AddAuthorModal;

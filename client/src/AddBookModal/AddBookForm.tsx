@@ -1,10 +1,10 @@
 import React from 'react';
 import { Formik, Field, Form } from "formik";
 import { Grid, Button } from 'semantic-ui-react';
-import { TextField, NumberField } from './Form';
-import { FormProps, Book } from '../types';
+import { TextField, NumberField } from '../Form';
+import { BookFormProps, Book } from '../types';
 
-type Props = Omit<FormProps, 'errMsg' | 'isOpen'>;
+type Props = Omit<BookFormProps, 'errMsg' | 'isOpen'>;
 
 const AddBookForm: React.FC<Props> = ({ onSubmit, onClose }: Props) => {
     const initValue: Book = {

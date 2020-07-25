@@ -13,6 +13,7 @@ export interface Author {
     ssn: string;
     name: string;
     birth?: string;
+    address?: string;
     gender: Gender;
 };
 
@@ -32,6 +33,9 @@ export type BookInfo = Omit<Book, 'isbn'>;
 export type State = {
     books: {
         [isbn: string]: Book,
+    },
+    authors: {
+        [ssn: string]: Author,
     }
 };
 
@@ -45,6 +49,15 @@ export type Action =
 } | {
     type: 'DEL_BOOK';
     payload: Book;
+} | {
+    type: 'SET_AUTHOR_LIST';
+    payload: Author[];
+} | {
+    type: 'ADD_AUTHOR';
+    payload: Author;
+} | {
+    type: 'DEL_AUTHOR';
+    payload: Author;
 };
 
 export type StateProviderProps = {
@@ -56,15 +69,29 @@ export type RatingProps = {
     rating: number;
 };
 
-export type FormProps = {
+export type BookFormProps = {
     onSubmit: (values: Book) => void;
     onClose: () => void;
     modalOpen?: boolean;
     errMsg?: string | null;
 };
 
-export type ModalProps = {
+export type AuthorFormProps = {
+    onSubmit: (values: Author) => void;
+    onClose: () => void;
+    modalOpen?: boolean;
+    errMsg?: string | null;
+};
+
+export type BookModalProps = {
     onSubmit: (values: Book) => void;
+    onClose: () => void;
+    modalOpen: boolean;
+    errMsg?: string;
+};
+
+export type AuthorModalProps = {
+    onSubmit: (values: Author) => void;
     onClose: () => void;
     modalOpen: boolean;
     errMsg?: string;
