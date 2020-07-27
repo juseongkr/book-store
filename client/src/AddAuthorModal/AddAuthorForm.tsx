@@ -43,7 +43,7 @@ const AddAuthorForm: React.FC<Props> = ({ onSubmit, onClose }: Props) => {
         }
 
         return errors;
-    }
+    };
 
     return (
         <Formik initialValues={ initValue } onSubmit={ onSubmit } validate={ checkForm }>
@@ -54,7 +54,7 @@ const AddAuthorForm: React.FC<Props> = ({ onSubmit, onClose }: Props) => {
                         <Field label='Author Name' placeholder='Name' name='name' component={ TextField }/>
                         <Field label='SSN' placeholder='Social Security Number' name='ssn' component={ TextField }/>
                         <SelectField label='Gender' name='gender' options={ genderSelections } />
-                        <Field label='Birth' placeholder='Birth (optional)' name='birth' component= { TextField }/>
+                        <Field label='Birth' placeholder='YYYY-MM-DD' name='birth' component= { TextField }/>
                         <Field label='Address' placeholder='Address (optional)' name='address' component= { TextField }/>
                         <Grid>
                             <Grid.Column floated='left'>
