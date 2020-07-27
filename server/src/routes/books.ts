@@ -54,4 +54,17 @@ booksRouter.delete('/:isbn', async (req, res, next) => {
     }
 });
 
+booksRouter.put('/:isbn', async (req, res, next) => {
+    const body = req.body;
+    try {
+        const book = {
+            ...body,
+        };
+        await Book.findOneAndUpdate({ isbn: body.isbn }, book, { new: true });
+        res.status(204).end();
+    } catch (err) {
+        next(err);
+    }
+});
+
 export default booksRouter;

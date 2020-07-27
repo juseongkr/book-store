@@ -7,7 +7,7 @@ import { MONGODB_URI } from './utils/config';
 import mongoose from 'mongoose';
 import pingRouter from './routes/ping';
 import booksRouter from './routes/books';
-import authorRouter from './routes/authors';
+import authorsRouter from './routes/authors';
 import middleware from './utils/middlewares';
 
 console.log('CONNECTING TO', MONGODB_URI);
@@ -36,7 +36,7 @@ app.use(express.json());
 
 app.use('/api/ping', pingRouter);
 app.use('/api/books', booksRouter);
-app.use('/api/authors', authorRouter);
+app.use('/api/authors', authorsRouter);
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 

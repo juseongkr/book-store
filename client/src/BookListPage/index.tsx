@@ -30,12 +30,14 @@ const BookListPage: React.FC = () => {
                 ...values,
                 isbn: genISBN(),
                 genres: values.genres.toString().replace(/ /g, '').split(','),
-            }
+            };
             const { data: newBook } = await axios.post<Book>(`${baseUrl}/books`, book);
             dispatch({ type: 'ADD_BOOK', payload: newBook });
             closeModal();
         } catch (err) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             console.error(err.response.data.error);
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             setError(err.response.data.error);
         }
     };
@@ -73,6 +75,6 @@ const BookListPage: React.FC = () => {
             <Button onClick={ () => openModal() }>Add new book</Button>
         </div>
     );
-}
+};
 
 export default BookListPage;
