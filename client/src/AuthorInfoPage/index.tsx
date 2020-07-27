@@ -14,9 +14,10 @@ const AuthorInfoPage: React.FC = () => {
     const deleteAuthor = async () => {
         try {
             const { data: authorList } = await axios.get<Author>(`${baseUrl}/authors/${ssn}`);
-            await axios.delete<any>(`${baseUrl}/authors/${ssn}`);
+            await axios.delete<unknown>(`${baseUrl}/authors/${ssn}`);
             dispatch({ type: 'DEL_AUTHOR', payload: authorList });
         } catch (err) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             console.error(err.response.data.error);
         }
     };

@@ -3,6 +3,7 @@ import { Modal, Segment } from 'semantic-ui-react';
 import { AuthorModalProps } from '../types';
 import AddAuthorForm from './AddAuthorForm';
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const AddAuthorModal = ({ onSubmit, onClose, modalOpen, errMsg }: AuthorModalProps) => {
     return (
         <Modal open={ modalOpen } onClose={ onClose } centered={ false } closeIcon>

@@ -27,7 +27,9 @@ const AuthorListPage: React.FC = () => {
             dispatch({ type: 'ADD_AUTHOR', payload: newAuthor });
             closeModal();
         } catch (err) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             console.error(err.response.data.error);
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             setError(err.response.data.error);
         }
     };

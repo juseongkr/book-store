@@ -36,7 +36,7 @@ const AddBookForm: React.FC<Props> = ({ onSubmit, onClose }: Props) => {
         }
 
         return errors;
-    }
+    };
 
     return (
         <Formik initialValues={ initValue } onSubmit={ onSubmit } validate={ checkForm }>

@@ -16,7 +16,7 @@ const App: React.FC = () => {
   const [ activeItem, setActiveItem ] = React.useState('home');
 
   React.useEffect(() => {
-    (async () => {
+    void (async () => {
       try {
         const { data: bookList } = await axios.get<Book[]>(`${baseUrl}/books`);
         const { data: authorList } = await axios.get<Author[]>(`${baseUrl}/authors`);
