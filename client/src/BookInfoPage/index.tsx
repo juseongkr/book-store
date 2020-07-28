@@ -23,7 +23,6 @@ const BookInfoPage: React.FC = () => {
         setModalOpen(false);
         setError('');
     };
-
     
     const submitUpdateBook = async (values: Book) => {
         try {
