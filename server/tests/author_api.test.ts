@@ -32,7 +32,7 @@ describe('AUTHOR API TEST', () => {
             .expect('Content-Type', /application\/json/);
     });
 
-    test('PUT: /api/books (Update the created author)', async () => {
+    test('PUT: /api/authors (Update the created author)', async () => {
         const updatedAuthor: Author = {
             ...author,
             address: 'updated address',
