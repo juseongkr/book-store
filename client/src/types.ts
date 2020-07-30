@@ -7,7 +7,7 @@ export enum Gender {
 export type GenderSelect = {
     value: Gender;
     label: string;
-}
+};
 
 export interface Author {
     ssn: string;
