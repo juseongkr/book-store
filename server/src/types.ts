@@ -8,6 +8,7 @@ export interface Author {
     ssn: string;
     name: string;
     birth?: string;
+    address?: string;
     gender: Gender;
 }
 
