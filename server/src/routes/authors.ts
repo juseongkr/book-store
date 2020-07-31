@@ -5,7 +5,7 @@ const authorsRouter = express.Router();
 
 authorsRouter.get('/', async (_req, res, next) => {
     try {
-        const authors = await Author.find({});
+        const authors = await Author.find({}).sort({ createdAt: -1});
         res.json(authors);
     } catch (err) {
         next(err);

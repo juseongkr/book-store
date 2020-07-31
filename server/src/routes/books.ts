@@ -5,7 +5,7 @@ const booksRouter = express.Router();
 
 booksRouter.get('/', async (_req, res, next) => {
     try {
-        const books = await Book.find({});
+        const books = await Book.find({}).sort({ createdAt: -1});
         res.json(books);
     } catch (err) {
         next(err);

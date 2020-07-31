@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --watchAll",
     "build": "tsc",
-    "start": "cd build && node index.js"
+    "start": "cd build/src && node index.js"
   },
   "author": "",
   "license": "ISC",
