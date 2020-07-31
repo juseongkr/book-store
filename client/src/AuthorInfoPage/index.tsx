@@ -25,7 +25,7 @@ const AuthorInfoPage: React.FC = () => {
     return (
         <div className='App'>
             <Container textAlign='left'>
-                <h3>{ author?.name }<Icon name={ author?.gender === 'other' ? 'genderless' : author?.gender == 'male' ? 'mars' : 'venus' }/></h3>
+                <h3>{ author?.name }<Icon name={ author?.gender === 'other' ? 'genderless' : author?.gender === 'male' ? 'mars' : 'venus' }/></h3>
                 <Divider/>
                 <div>SSN: { author?.ssn }</div>
                 <div>Birth: { author?.birth }</div>

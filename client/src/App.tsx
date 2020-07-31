@@ -2,18 +2,32 @@ import React from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Container, Divider, Menu } from "semantic-ui-react";
+import loadable from '@loadable/component';
 
 import { Book, Author } from './types';
 import { useStateValue } from './state/state';
 import { baseUrl } from './constants';
-import BookListPage from './BookListPage';
-import BookInfoPage from './BookInfoPage';
-import AuthorListPage from './AuthorListPage';
-import AuthorInfoPage from './AuthorInfoPage';
+import Loading from './LoadingPage';
 
 const App: React.FC = () => {
   const [ , dispatch ] = useStateValue();
   const [ activeItem, setActiveItem ] = React.useState('home');
+
+  const BookListPage = loadable(() => import('./BookListPage'), {
+    fallback: <Loading/>,
+  });
+
+  const BookInfoPage = loadable(() => import('./BookInfoPage'), {
+    fallback: <Loading/>,
+  });
+
+  const AuthorListPage = loadable(() => import('./AuthorListPage'), {
+    fallback: <Loading/>,
+  });
+
+  const AuthorInfoPage = loadable(() => import('./AuthorInfoPage'), {
+    fallback: <Loading/>,
+  });
 
   React.useEffect(() => {
     void (async () => {
@@ -34,8 +48,8 @@ const App: React.FC = () => {
         <Container>
           <Menu pointing secondary>
             <Menu.Item as={ Link } to='/' name='home' active={activeItem === 'home'} onClick={ () => setActiveItem('home') }>Home</Menu.Item>
-            <Menu.Item as={ Link } to='/books' name='book' active={activeItem === 'book'} onClick={ () => setActiveItem('book') }>Book</Menu.Item>
-            <Menu.Item as={ Link } to='/authors' name='author' active={activeItem === 'author'} onClick={ () => setActiveItem('author') }>Author</Menu.Item>
+            <Menu.Item as={ Link } to='/books' name='book' active={activeItem === 'book'} onClick={ () => setActiveItem('book') } onMouseOver={ () => BookListPage.preload() }>Book</Menu.Item>
+            <Menu.Item as={ Link } to='/authors' name='author' active={activeItem === 'author'} onClick={ () => setActiveItem('author') } onMouseOver={ () => AuthorListPage.preload() }>Author</Menu.Item>
           </Menu>
           <Divider hidden/>
           <Switch>

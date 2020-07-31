@@ -55,7 +55,7 @@ const AuthorListPage: React.FC = () => {
                                 <Table.Cell><Link to={'/authors/' + author.ssn}>{ author.name }</Link></Table.Cell>
                                 <Table.Cell>{ author?.birth }</Table.Cell>
                                 <Table.Cell>{ author?.address }</Table.Cell>
-                                <Table.Cell><Icon name={ author.gender === 'other' ? 'genderless' : author.gender == 'male' ? 'mars' : 'venus'  }></Icon></Table.Cell>
+                                <Table.Cell><Icon name={ author.gender === 'other' ? 'genderless' : author.gender === 'male' ? 'mars' : 'venus'  }></Icon></Table.Cell>
                             </Table.Row>
                         ))
                     }
