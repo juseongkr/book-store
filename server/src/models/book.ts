@@ -34,6 +34,10 @@ const bookSchema = new mongoose.Schema({
     description: {
         type: String,
         required: false,
+    },
+    uploader: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
     }
 }, {
     timestamps: true,

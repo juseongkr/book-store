@@ -4,6 +4,7 @@ import { State, Action, StateProviderProps } from '../types';
 const initState: State = {
     books: { },
     authors: { },
+    username: '',
 };
 
 export const StateContext = createContext<[State, React.Dispatch<Action>]>([

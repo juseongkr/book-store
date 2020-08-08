@@ -1,11 +1,12 @@
 import express from 'express';
 import Author from '../models/author';
+import middleware from '../utils/middlewares';
 
 const authorsRouter = express.Router();
 
 authorsRouter.get('/', async (_req, res, next) => {
     try {
-        const authors = await Author.find({}).sort({ createdAt: -1});
+        const authors = await Author.find({}).sort({ createdAt: -1 });
         res.json(authors);
     } catch (err) {
         next(err);
@@ -25,7 +26,7 @@ authorsRouter.get('/:ssn', async (req, res, next) => {
     }
 });
 
-authorsRouter.post('/', async (req, res, next) => {
+authorsRouter.post('/', middleware.isLoggedIn, async (req, res, next) => {
     const body = req.body;
     try {
         const author = new Author({
@@ -34,6 +35,7 @@ authorsRouter.post('/', async (req, res, next) => {
             gender: body.gender,
             birth: body?.birth,
             address: body?.address,
+            uploader: body.user._id,
         });
         
         const savedAuthor = await author.save();
@@ -43,22 +45,22 @@ authorsRouter.post('/', async (req, res, next) => {
     }
 });
 
-authorsRouter.delete('/:ssn', async (req, res, next) => {
+authorsRouter.delete('/:ssn', middleware.isLoggedIn, async (req, res, next) => {
     try {
-        await Author.findOneAndRemove({ ssn: req.params.ssn });
+        await Author.findOneAndDelete({ uploader: req.body.user._id, ssn: req.params.ssn });
         res.status(204).end();
     } catch (err) {
         next(err);
     }
 });
 
-authorsRouter.put('/:ssn', async (req, res, next) => {
+authorsRouter.put('/:ssn', middleware.isLoggedIn, async (req, res, next) => {
     const body = req.body;
     try {
         const author = {
             ...body,
         };
-        await Author.findOneAndUpdate({ ssn: body.ssn }, author, { new: true});
+        await Author.findOneAndUpdate({ uploader: req.body.user._id, ssn: author.ssn }, author, { new: true });
         res.status(204).end();
     } catch (err) {
         next(err);

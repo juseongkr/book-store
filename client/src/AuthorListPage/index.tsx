@@ -62,7 +62,7 @@ const AuthorListPage: React.FC = () => {
                 </Table.Body>
             </Table>
             <AddAuthorModal modalOpen={ modalOpen } onSubmit={ submitNewAuthor } onClose={ closeModal } errMsg={ error }/>
-            <Button onClick={ () => openModal() }>Add new author</Button>
+            <Button color='teal' onClick={ () => openModal() }>Add new author</Button>
         </div>
     );
 };

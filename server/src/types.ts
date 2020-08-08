@@ -10,6 +10,7 @@ export interface Author {
     birth?: string;
     address?: string;
     gender: Gender;
+    uploader: string;
 }
 
 export interface Book {
@@ -20,6 +21,13 @@ export interface Book {
     genres: string[];
     rating?: number;
     description?: string;
+    uploader: string;
+}
+
+export interface User {
+    username: string;
+    password: string;
+    name?: string;
 }
 
 export type AuthorInfo = Omit<Author, 'ssn'>;

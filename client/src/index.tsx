@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import 'semantic-ui-css/semantic.min.css';
 import { StateProvider, reducer } from './state';
+import { HelmetProvider } from 'react-helmet-async';
 
 ReactDOM.render(
     <StateProvider reducer={ reducer }>
-    <App />
+      <HelmetProvider>
+        <App />
+      </HelmetProvider>
     </StateProvider>,
   document.getElementById('root')
 );

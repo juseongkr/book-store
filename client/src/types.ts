@@ -27,6 +27,12 @@ export interface Book {
     description?: string;
 };
 
+export interface User {
+    username: string;
+    password: string;
+    name?: string;
+};
+
 export type AuthorInfo = Omit<Author, 'ssn'>;
 export type BookInfo = Omit<Book, 'isbn'>;
 
@@ -36,7 +42,8 @@ export type State = {
     },
     authors: {
         [ssn: string]: Author,
-    }
+    },
+    username: string,
 };
 
 export type Action =
@@ -58,6 +65,9 @@ export type Action =
 } | {
     type: 'DEL_AUTHOR';
     payload: Author;
+} | {
+    type: 'SET_USER';
+    payload: string;
 };
 
 export type StateProviderProps = {

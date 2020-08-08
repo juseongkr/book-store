@@ -60,6 +60,11 @@ export const reducer = (state: State, action: Action): State => {
             delete retAuthor.authors[action.payload.ssn];
 
             return retAuthor;
+        case 'SET_USER':
+            return {
+                ...state,
+                username: action.payload,
+            };
         default:
             return state;
     }

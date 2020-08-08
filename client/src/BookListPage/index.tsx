@@ -72,7 +72,7 @@ const BookListPage: React.FC = () => {
                 </Table.Body>
             </Table>
             <AddBookModal modalOpen={ modalOpen } onSubmit={ submitNewBook } onClose={ closeModal } errMsg={ error }/>
-            <Button onClick={ () => openModal() }>Add new book</Button>
+            <Button color='teal' onClick={ () => openModal() }>Add new book</Button>
         </div>
     );
 };

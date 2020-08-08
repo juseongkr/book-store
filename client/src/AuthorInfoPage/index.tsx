@@ -32,8 +32,8 @@ const AuthorInfoPage: React.FC = () => {
                 <div>Address: { author?.address }</div>
             </Container>
             <Divider hidden/>
-            <Button as={ Link } to='/authors' basic color='grey'>Back</Button>
-            <Button as={ Link } to='/authors' basic color='red' onClick={ deleteAuthor }>Delete</Button>
+            <Button as={ Link } to='/authors' color='grey'>Back</Button>
+            <Button as={ Link } to='/authors' color='red' onClick={ deleteAuthor }>Delete</Button>
         </div>
     );
 };

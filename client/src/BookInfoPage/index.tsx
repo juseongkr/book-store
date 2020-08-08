@@ -62,10 +62,10 @@ const BookInfoPage: React.FC = () => {
                 <div>Description: {book?.description }</div>
             </Container>
             <Divider hidden/>
-            <Button as={ Link } to='/' basic color='grey'>Back</Button>
+            <Button as={ Link } to='/books' color='grey'>Back</Button>
             <UpdateBookModal modalOpen={ modalOpen } onSubmit={ submitUpdateBook } onClose={ closeModal } errMsg={ error }/>
-            <Button basic color='blue' onClick={ () => openModal() }>Update</Button>
-            <Button as={ Link } to='/' basic color='red' onClick={ deleteBook }>Delete</Button>
+            <Button color='blue' onClick={ () => openModal() }>Update</Button>
+            <Button as={ Link } to='/books' color='red' onClick={ deleteBook }>Delete</Button>
         </div>
     );
 };

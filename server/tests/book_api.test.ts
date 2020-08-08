@@ -1,8 +1,8 @@
 import supertest from 'supertest';
 import mongoose from 'mongoose';
 import app from '../src/app';
-import { Book } from '../src/types';
-const api = supertest(app);
+import { Book, User } from '../src/types';
+const api = supertest.agent(app);
 
 const book: Book = {
     isbn: '000000000',
@@ -12,7 +12,23 @@ const book: Book = {
     genres: ['sample1', 'sample2'],
     rating: 1,
     description: 'no comment',
+    uploader: '',
 };
+
+const user: User = {
+    username: 'tester',
+    password: 'tester1234',
+    name: 'api tester',
+};
+
+beforeAll(async () => {
+    const response = await api.post('/api/auth/login')
+        .send(user)
+        .expect(200)
+        .expect('Content-Type', /application\/json/);
+
+    expect(response.get('set-cookie')[0]).toContain('access_token');
+});
 
 describe('BOOK API TEST', () => {
     test('GET: /api/books (Read a list of the entire book)', async () => {
@@ -22,21 +38,29 @@ describe('BOOK API TEST', () => {
     });
 
     test('POST: /api/books (Create a new book)', async () => {
-        await api.post('/api/books')
+        const { text: createdBook } = await api.post('/api/books')
             .send(book)
             .expect(200)
             .expect('Content-Type', /application\/json/);
+        
+        expect(createdBook).toContain(book.title);
     });
 
     test('GET: /api/books/:isbn (Read the created book)', async () => {
-        await api.get(`/api/books/${book.isbn}`)
+        const { text: createdBook } = await api.get(`/api/books/${book.isbn}`)
             .expect(200)
             .expect('Content-Type', /application\/json/);
+        
+        expect(createdBook).toContain(book.title);
     });
 
-    test('PUT: /api/books (Update the created book)', async () => {
-        const updatedBook: Book = {
-            ...book,
+    test('PUT: /api/books/:isbn (Update the created book)', async () => {
+        const { text: createdBook } = await api.get(`/api/books/${book.isbn}`)
+            .expect(200)
+            .expect('Content-Type', /application\/json/);
+        
+        const updatedBook = {
+            ...JSON.parse(createdBook),
             rating: 5,
         }
 
@@ -51,11 +75,18 @@ describe('BOOK API TEST', () => {
     });
 
     test('GET: /api/books/:isbn (Check if the book has been deleted)', async () => {
-        await api.get(`/api/books/${book.isbn}`)
+        const { text: createdBook } = await api.get(`/api/books/${book.isbn}`)
             .expect(404);
+        
+        expect(createdBook).toBeFalsy();
     });
 });
 
-afterAll(() => {
+afterAll(async () => {
+    const { header: response } = await api.post('/api/auth/logout')
+        .send(user)
+        .expect(302);
+
+    expect(response['set-cookie'][0]).toContain('access_token=;');
     mongoose.connection.close();
 });
