@@ -11,6 +11,11 @@ https://book-store-ts.herokuapp.com/
 bash ./build.sh
 ```
 
+## Test
+```shellscript
+npm run test
+```
+
 ## Run
 ```shellscript
 bash ./run.sh
