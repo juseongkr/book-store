@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Grid, Header, Segment, Form, Button, Divider } from 'semantic-ui-react';
+import { Grid, Header, Segment, Form, Button, Divider, Container } from 'semantic-ui-react';
 import { User } from '../types';
 import { baseUrl } from '../constants';
 import { useStateValue } from '../state/state';
@@ -30,24 +30,26 @@ const LoginForm: React.FC = () => {
     };
 
     return (
-        <Grid textAlign='center' style={ { height: '25vh' } } verticalAlign='middle'>
-            <Grid.Column style={ { maxWidth: 400 } }>
-                <Header as='h3' textAlign='center'>
-                    Book Store Log in
-                </Header>
-                <Form size='large'>
-                    <Segment stacked>
-                        <Form.Input autoFocus fluid icon='user' iconPosition='left' name='username' placeholder='Email' onChange={ e => setUsername(e.target.value) }/>
-                        <Form.Input fluid icon='lock' iconPosition='left' name='password' placeholder='Password' type='password' onChange={ e => setPassword(e.target.value) }/>
-                        <Button fluid color='teal' type='submit' size='large' onClick={ userLogin }>Log in</Button>
-                    </Segment>
-                </Form>
-                <Divider hidden/>
-                <Form size='large'>
-                    <Button fluid type='submit' size='large'>Sign up</Button>
-                </Form>
-            </Grid.Column>
-        </Grid>
+        <div className='App'>
+            <Grid textAlign='center' style={ { height: '35vh' } } verticalAlign='middle'>
+                <Grid.Column style={ { maxWidth: 400 } }>
+                    <Header as='h3' textAlign='center'>
+                        Book Store Log in
+                    </Header>
+                    <Form size='large'>
+                        <Segment stacked>
+                            <Form.Input autoFocus fluid icon='user' iconPosition='left' name='username' placeholder='Email' onChange={ e => setUsername(e.target.value) }/>
+                            <Form.Input fluid icon='lock' iconPosition='left' name='password' placeholder='Password' type='password' onChange={ e => setPassword(e.target.value) }/>
+                            <Button fluid color='teal' type='submit' size='large' onClick={ userLogin }>Log in</Button>
+                        </Segment>
+                    </Form>
+                    <Divider hidden/>
+                    <Form size='large'>
+                        <Button fluid type='submit' size='large'>Sign up</Button>
+                    </Form>
+                </Grid.Column>
+            </Grid>
+        </div>
     );
 };
 
