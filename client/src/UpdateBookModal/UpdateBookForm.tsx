@@ -6,7 +6,6 @@ import { TextField, NumberField } from '../Form';
 import { useStateValue } from '../state';
 import { useParams } from 'react-router-dom';
 
-
 type Props = Omit<BookFormProps, 'errMsg' | 'isOpen'>;
 
 const UpdateBookForm: React.FC<Props> = ({ onSubmit, onClose }: Props) => {
@@ -14,7 +13,6 @@ const UpdateBookForm: React.FC<Props> = ({ onSubmit, onClose }: Props) => {
     const { isbn } = useParams<{ isbn: string }>();
 
     const initValue: Book = {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         ...books[isbn],
     };
 

@@ -26,7 +26,7 @@ const BookInfoPage: React.FC = () => {
     
     const submitUpdateBook = async (values: Book) => {
         try {
-            const updatedBook = {
+            const updatedBook: Book = {
                 ...values,
             };
             await axios.put(`${baseUrl}/books/${isbn}`, updatedBook);

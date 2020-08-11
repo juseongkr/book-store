@@ -49,8 +49,12 @@ booksRouter.post('/', middleware.isLoggedIn, async (req, res, next) => {
 
 booksRouter.delete('/:isbn', middleware.isLoggedIn, async (req, res, next) => {
     try {
-        await Book.findOneAndDelete({ uploader: req.body.user._id, isbn: req.params.isbn });
-        res.status(204).end();
+        const deleted = await Book.findOneAndDelete({ uploader: req.body.user._id, isbn: req.params.isbn });
+        if (deleted) {
+            res.status(204).end();
+        } else {
+            res.status(400).end();
+        }
     } catch (err) {
         next(err);
     }
@@ -62,8 +66,12 @@ booksRouter.put('/:isbn', middleware.isLoggedIn, async (req, res, next) => {
         const book = {
             ...body,
         };
-        await Book.findOneAndUpdate({ uploader: req.body.user._id, isbn: book.isbn }, book, { new: true });
-        res.status(204).end();
+        const updated = await Book.findOneAndUpdate({ uploader: req.body.user._id, isbn: req.params.isbn }, book, { new: true });
+        if (updated) {
+            res.status(204).end();
+        } else {
+            res.status(400).end();
+        }
     } catch (err) {
         next(err);
     }

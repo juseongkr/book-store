@@ -16,7 +16,6 @@ const LoginForm: React.FC = () => {
         if (username !== '' && password !== '') {
             try {
                 const { data: user } = await axios.post<User>(`${baseUrl}/auth/login`, { username, password });
-                console.log(user);
                 window.localStorage.setItem('loggedUser', JSON.stringify(user));
                 dispatch({ type: 'SET_USER', payload: user.username });
                 setUsername('');

@@ -47,8 +47,12 @@ authorsRouter.post('/', middleware.isLoggedIn, async (req, res, next) => {
 
 authorsRouter.delete('/:ssn', middleware.isLoggedIn, async (req, res, next) => {
     try {
-        await Author.findOneAndDelete({ uploader: req.body.user._id, ssn: req.params.ssn });
-        res.status(204).end();
+        const deleted = await Author.findOneAndDelete({ uploader: req.body.user._id, ssn: req.params.ssn });
+        if (deleted) {
+            res.status(204).end();
+        } else {
+            res.status(400).end();
+        }
     } catch (err) {
         next(err);
     }
@@ -60,8 +64,12 @@ authorsRouter.put('/:ssn', middleware.isLoggedIn, async (req, res, next) => {
         const author = {
             ...body,
         };
-        await Author.findOneAndUpdate({ uploader: req.body.user._id, ssn: author.ssn }, author, { new: true });
-        res.status(204).end();
+        const updated = await Author.findOneAndUpdate({ uploader: req.body.user._id, ssn: req.params.ssn }, author, { new: true });
+        if (updated) {
+            res.status(204).end();
+        } else {
+            res.status(400).end();
+        }
     } catch (err) {
         next(err);
     }
