@@ -65,6 +65,11 @@ export const reducer = (state: State, action: Action): State => {
                 ...state,
                 username: action.payload,
             };
+        case 'SET_ACTIVE':
+            return {
+                ...state,
+                actived: action.payload,
+            };
         default:
             return state;
     }

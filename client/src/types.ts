@@ -4,6 +4,13 @@ export enum Gender {
     Other = "other",
 };
 
+export enum ActiveItem {
+    Home = 'home',
+    Book = 'book',
+    Author = 'author',
+    Login = 'login',
+};
+
 export type GenderSelect = {
     value: Gender;
     label: string;
@@ -44,6 +51,7 @@ export type State = {
         [ssn: string]: Author,
     },
     username: string,
+    actived: ActiveItem,
 };
 
 export type Action =
@@ -68,6 +76,9 @@ export type Action =
 } | {
     type: 'SET_USER';
     payload: string;
+} | {
+    type: 'SET_ACTIVE';
+    payload: ActiveItem;
 };
 
 export type StateProviderProps = {

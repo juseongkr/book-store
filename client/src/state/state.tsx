@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import { State, Action, StateProviderProps } from '../types';
+import { State, Action, StateProviderProps, ActiveItem } from '../types';
 
 const initState: State = {
     books: { },
     authors: { },
     username: '',
+    actived: ActiveItem.Home,
 };
 
 export const StateContext = createContext<[State, React.Dispatch<Action>]>([

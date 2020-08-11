@@ -1,51 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-import { Container, Divider, Menu } from "semantic-ui-react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Container, Divider } from "semantic-ui-react";
 import { Helmet } from 'react-helmet-async';
-import loadable from '@loadable/component';
 
-import { Book, Author, User } from './types';
+import { Book, Author } from './types';
 import { useStateValue } from './state/state';
 import { baseUrl } from './constants';
-import Loading from './LoadingPage';
 import MainPage from './MainPage';
+import FooterBar from './FooterBar';
+import MenuBar, { BookListPage, AuthorListPage, BookInfoPage, AuthorInfoPage, LoginForm } from './MenuBar';
 
 const App: React.FC = () => {
-  const [ { username }, dispatch ] = useStateValue();
-  const [ activeItem, setActiveItem ] = React.useState<string>('home');
-  
-  const BookListPage = loadable(() => import('./BookListPage'), {
-    fallback: <Loading/>,
-  });
-
-  const BookInfoPage = loadable(() => import('./BookInfoPage'), {
-    fallback: <Loading/>,
-  });
-
-  const AuthorListPage = loadable(() => import('./AuthorListPage'), {
-    fallback: <Loading/>,
-  });
-
-  const AuthorInfoPage = loadable(() => import('./AuthorInfoPage'), {
-    fallback: <Loading/>,
-  });
-
-  const LoginForm = loadable(() => import('./LoginForm'), {
-    fallback: <Loading/>,
-  });
-
-  const userLogout = async () => {
-    try {
-      await axios.post<User>(`${baseUrl}/auth/logout`);
-      window.localStorage.removeItem('loggedUser');
-      dispatch({ type: 'SET_USER', payload: '' });
-      setActiveItem('home');
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const [ { actived }, dispatch ] = useStateValue();
 
   React.useEffect(() => {
     void (async () => {
@@ -69,20 +37,11 @@ const App: React.FC = () => {
   return (
     <div className='App'>
       <Helmet>
-        <title>Book store { activeItem === 'home' ? '' : ': ' + activeItem }</title>
+        <title>Book store { actived === 'home' ? '' : ': ' + actived }</title>
       </Helmet>
       <Router>
-        <Container>
-          <Menu pointing secondary>
-              <Menu.Item as={ Link } to='/' color='teal' name='home' active={ activeItem === 'home' } onClick={ () => setActiveItem('home') }>Home</Menu.Item>
-              <Menu.Item as={ Link } to='/books' color='teal' name='book' active={ activeItem === 'book' } onClick={ () => setActiveItem('book') } onMouseOver={ () => BookListPage.preload() }>Book</Menu.Item>
-              <Menu.Item as={ Link } to='/authors' color='teal' name='author' active={ activeItem === 'author' } onClick={ () => setActiveItem('author') } onMouseOver={ () => AuthorListPage.preload() }>Author</Menu.Item>
-              {
-                username ?
-                <Menu.Item as={ Link } to='/' color='teal' name='logout' position='right' onClick={ userLogout }>Logout</Menu.Item> :
-                <Menu.Item as={ Link } to='/login' color='teal' name='login' position='right' active={ activeItem === 'login' } onClick={ () => setActiveItem('login') } onMouseOver={ () => LoginForm.preload() }>Login</Menu.Item>
-              }
-          </Menu>
+        <Container style={{ padding: '0em 0em 10em' }} vertical>
+          <MenuBar/>
           <Divider hidden/>
           <Switch>
             <Route path='/books/:isbn' render={ () => <BookInfoPage/> }/>
@@ -93,6 +52,7 @@ const App: React.FC = () => {
             <Route path='/' render={ () => <MainPage/> } exact/>
           </Switch>
         </Container>
+      <FooterBar/>
       </Router>
     </div>
   );

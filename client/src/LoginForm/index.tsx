@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Grid, Header, Segment, Form, Button, Divider, Container } from 'semantic-ui-react';
+import { Grid, Header, Segment, Form, Button, Divider } from 'semantic-ui-react';
 import { User } from '../types';
 import { baseUrl } from '../constants';
 import { useStateValue } from '../state/state';
