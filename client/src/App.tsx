@@ -24,9 +24,9 @@ const App: React.FC = () => {
         dispatch({ type: 'SET_AUTHOR_LIST', payload: authorList });
         const token = window.localStorage.getItem('loggedUser');
         if (token) {
-          const token_obj = JSON.parse(token);
+          const tokenObj = JSON.parse(token);
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          dispatch({ type: 'SET_USER', payload: token_obj.username });
+          dispatch({ type: 'SET_USER', payload: tokenObj.username });
         }
       } catch (err) {
         console.log(err);

@@ -3,8 +3,7 @@ import { Modal, Segment } from 'semantic-ui-react';
 import AddBookForm from './AddBookForm';
 import { BookModalProps } from '../types';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const AddBookModal = ({ onSubmit, onClose, modalOpen, errMsg }: BookModalProps) => {
+const AddBookModal: React.FC<BookModalProps> = ({ onSubmit, onClose, modalOpen, errMsg }: BookModalProps) => {
     return (
         <Modal open={ modalOpen } onClose={ onClose } centered={ false } closeIcon>
             <Modal.Header>Add a new book</Modal.Header>

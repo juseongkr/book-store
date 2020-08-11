@@ -108,12 +108,12 @@ export type BookModalProps = {
     onSubmit: (values: Book) => void;
     onClose: () => void;
     modalOpen: boolean;
-    errMsg?: string;
+    errMsg?: string | null;
 };
 
 export type AuthorModalProps = {
     onSubmit: (values: Author) => void;
     onClose: () => void;
     modalOpen: boolean;
-    errMsg?: string;
+    errMsg?: string | null;
 };
