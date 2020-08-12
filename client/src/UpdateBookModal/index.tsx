@@ -1,9 +1,9 @@
 import React from 'react';
 import { Modal, Segment } from 'semantic-ui-react';
 import UpdateBookForm from './UpdateBookForm';
-import { BookModalProps } from '../types';
+import { BookFormProps } from '../types';
 
-const UpdateBookModal: React.FC<BookModalProps> = ({ onSubmit, onClose, modalOpen, errMsg }: BookModalProps) => {
+const UpdateBookModal: React.FC<BookFormProps> = ({ onSubmit, onClose, modalOpen, errMsg }: BookFormProps) => {
     return (
         <Modal open={ modalOpen } onClose={ onClose } centered={ false } closeIcon>
             <Modal.Header>Update a book</Modal.Header>

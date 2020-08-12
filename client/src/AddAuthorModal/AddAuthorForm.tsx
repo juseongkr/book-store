@@ -4,9 +4,9 @@ import { AuthorFormProps, Author, Gender, GenderSelect } from '../types';
 import { Formik, Form, Field } from 'formik';
 import { TextField, SelectField } from '../Form';
 
-type Props = Omit<AuthorFormProps, 'errMsg' | 'isOpen'>;
+type Props = Omit<AuthorFormProps, 'errMsg' | 'modalOpen'>;
 
-const genderSelections: GenderSelect[] = [
+const genderSelections: Array<GenderSelect> = [
     { value: Gender.Male, label: "Male" },
     { value: Gender.Female, label: "Female" },
     { value: Gender.Other, label: "Other" },

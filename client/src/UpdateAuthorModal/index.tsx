@@ -1,9 +1,9 @@
 import React from 'react';
 import UpdateAuthorForm from './UpdateAuthorForm';
 import { Modal, Segment } from 'semantic-ui-react';
-import { AuthorModalProps } from '../types';
+import { AuthorFormProps } from '../types';
 
-const UpdateAuthorModal: React.FC<AuthorModalProps> = ({ onSubmit, onClose, modalOpen, errMsg }: AuthorModalProps) => {
+const UpdateAuthorModal: React.FC<AuthorFormProps> = ({ onSubmit, onClose, modalOpen, errMsg }: AuthorFormProps) => {
     return (
         <Modal open={ modalOpen } onClose={ onClose } centered={ false } closeIcon>
             <Modal.Header>Update a author</Modal.Header>

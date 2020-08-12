@@ -6,7 +6,7 @@ import { TextField, NumberField } from '../Form';
 import { useStateValue } from '../state';
 import { useParams } from 'react-router-dom';
 
-type Props = Omit<BookFormProps, 'errMsg' | 'isOpen'>;
+type Props = Omit<BookFormProps, 'errMsg' | 'modalOpen'>;
 
 const UpdateBookForm: React.FC<Props> = ({ onSubmit, onClose }: Props) => {
     const [ { books }, ] = useStateValue();

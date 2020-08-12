@@ -90,30 +90,27 @@ export type RatingProps = {
     rating: number;
 };
 
+export interface NewUser extends User {
+    passwordCheck?: string;
+}
+
 export type BookFormProps = {
     onSubmit: (values: Book) => void;
     onClose: () => void;
-    modalOpen?: boolean;
+    modalOpen: boolean;
     errMsg?: string | null;
 };
 
 export type AuthorFormProps = {
     onSubmit: (values: Author) => void;
     onClose: () => void;
-    modalOpen?: boolean;
-    errMsg?: string | null;
-};
-
-export type BookModalProps = {
-    onSubmit: (values: Book) => void;
-    onClose: () => void;
     modalOpen: boolean;
     errMsg?: string | null;
 };
 
-export type AuthorModalProps = {
-    onSubmit: (values: Author) => void;
+export type RegisterFormProps = {
+    onSubmit: (values: NewUser) => void;
     onClose: () => void;
     modalOpen: boolean;
-    errMsg?: string | null;
+    errMsg? : string | null;
 };

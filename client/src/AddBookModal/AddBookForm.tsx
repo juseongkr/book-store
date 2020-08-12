@@ -4,7 +4,7 @@ import { Grid, Button } from 'semantic-ui-react';
 import { TextField, NumberField } from '../Form';
 import { BookFormProps, Book } from '../types';
 
-type Props = Omit<BookFormProps, 'errMsg' | 'isOpen'>;
+type Props = Omit<BookFormProps, 'errMsg' | 'modalOpen'>;
 
 const AddBookForm: React.FC<Props> = ({ onSubmit, onClose }: Props) => {
     const initValue: Book = {

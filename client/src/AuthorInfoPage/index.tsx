@@ -62,7 +62,7 @@ const AuthorInfoPage: React.FC = () => {
             <Divider hidden/>
             <Button as={ Link } to='/authors' color='grey'>Back</Button>
             <UpdateAuthorModal modalOpen={ modalOpen } onSubmit={ submitUpdateAuthor } onClose={ closeModal } errMsg={ error }/>
-            <Button color='blue' onClick={ () => openModal() }>Update</Button>
+            <Button color='blue' onClick={ openModal }>Update</Button>
             <Button as={ Link } to='/authors' color='red' onClick={ deleteAuthor }>Delete</Button>
         </div>
     );

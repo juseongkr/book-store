@@ -61,3 +61,15 @@ export const SelectField: React.FC<SelectProps> = ({ label, name, options }: Sel
         </Form.Field>
     );
 };
+
+export const PasswordField: React.FC<TextProps> = ({ field, label, placeholder }: TextProps) => {
+    return (
+        <Form.Field>
+            <label>{ label }</label>
+            <Field { ...field } type='password' placeholder={ placeholder }/>
+            <div style={ { color: 'red' } }>
+                <ErrorMessage name={ field.name }/>
+            </div>
+        </Form.Field>
+    );
+};

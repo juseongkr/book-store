@@ -6,7 +6,7 @@ import { Formik, Form, Field } from 'formik';
 import { SelectField, TextField } from '../Form';
 import { Grid, Button } from 'semantic-ui-react';
 
-type Props = Omit<AuthorFormProps, 'errMsg' | 'isOpen'>;
+type Props = Omit<AuthorFormProps, 'errMsg' | 'modalOpen'>;
 
 const genderSelections: GenderSelect[] = [
     { value: Gender.Male, label: "Male" },
