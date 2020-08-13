@@ -28,6 +28,7 @@ authorsRouter.get('/:ssn', async (req, res, next) => {
 
 authorsRouter.post('/', middleware.isLoggedIn, async (req, res, next) => {
     const body = req.body;
+    const session = req.session;
     try {
         const author = new Author({
             ssn: body.ssn,
@@ -35,7 +36,7 @@ authorsRouter.post('/', middleware.isLoggedIn, async (req, res, next) => {
             gender: body.gender,
             birth: body?.birth,
             address: body?.address,
-            uploader: body.user._id,
+            uploader: session!.user.id,
         });
         
         const savedAuthor = await author.save();
@@ -46,8 +47,9 @@ authorsRouter.post('/', middleware.isLoggedIn, async (req, res, next) => {
 });
 
 authorsRouter.delete('/:ssn', middleware.isLoggedIn, async (req, res, next) => {
+    const session = req.session;
     try {
-        const deleted = await Author.findOneAndDelete({ uploader: req.body.user._id, ssn: req.params.ssn });
+        const deleted = await Author.findOneAndDelete({ uploader: session!.user.id, ssn: req.params.ssn });
         if (deleted) {
             res.status(204).end();
         } else {
@@ -60,11 +62,12 @@ authorsRouter.delete('/:ssn', middleware.isLoggedIn, async (req, res, next) => {
 
 authorsRouter.put('/:ssn', middleware.isLoggedIn, async (req, res, next) => {
     const body = req.body;
+    const session = req.session;
     try {
         const author = {
             ...body,
         };
-        const updated = await Author.findOneAndUpdate({ uploader: req.body.user._id, ssn: req.params.ssn }, author, { new: true });
+        const updated = await Author.findOneAndUpdate({ uploader: session!.user.id, ssn: req.params.ssn }, author, { new: true });
         if (updated) {
             res.status(204).end();
         } else {

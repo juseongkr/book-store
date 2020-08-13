@@ -24,8 +24,7 @@ beforeAll(async () => {
         .send(user)
         .expect(200)
         .expect('Content-Type', /application\/json/);
-
-    expect(response.get('set-cookie')[0]).toContain('access_token');
+    expect(response.get('set-cookie')[0]).toContain('session-cookie');
 });
 
 describe('AUTHOR API TEST', () => {
@@ -86,6 +85,6 @@ afterAll(async () => {
         .send(user)
         .expect(302);
 
-    expect(response['set-cookie'][0]).toContain('access_token=;');
+    expect(response['set-cookie'][0]).toContain('session-cookie=;');
     mongoose.connection.close();
 });

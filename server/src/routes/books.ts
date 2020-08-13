@@ -28,6 +28,7 @@ booksRouter.get('/:isbn', async (req, res, next) => {
 
 booksRouter.post('/', middleware.isLoggedIn, async (req, res, next) => {
     const body = req.body;
+    const session = req.session;
     try {
         const book = new Book({
             isbn: body.isbn,
@@ -37,7 +38,7 @@ booksRouter.post('/', middleware.isLoggedIn, async (req, res, next) => {
             genres: body.genres,
             rating: body?.rating,
             description: body?.description,
-            uploader: body.user._id,
+            uploader: session!.user.id,
         });
         
         const savedBook = await book.save();
@@ -48,8 +49,9 @@ booksRouter.post('/', middleware.isLoggedIn, async (req, res, next) => {
 });
 
 booksRouter.delete('/:isbn', middleware.isLoggedIn, async (req, res, next) => {
+    const session = req.session;
     try {
-        const deleted = await Book.findOneAndDelete({ uploader: req.body.user._id, isbn: req.params.isbn });
+        const deleted = await Book.findOneAndDelete({ uploader: session!.user.id, isbn: req.params.isbn });
         if (deleted) {
             res.status(204).end();
         } else {
@@ -62,11 +64,12 @@ booksRouter.delete('/:isbn', middleware.isLoggedIn, async (req, res, next) => {
 
 booksRouter.put('/:isbn', middleware.isLoggedIn, async (req, res, next) => {
     const body = req.body;
+    const session = req.session;
     try {
         const book = {
             ...body,
         };
-        const updated = await Book.findOneAndUpdate({ uploader: req.body.user._id, isbn: req.params.isbn }, book, { new: true });
+        const updated = await Book.findOneAndUpdate({ uploader: session!.user.id, isbn: req.params.isbn }, book, { new: true });
         if (updated) {
             res.status(204).end();
         } else {

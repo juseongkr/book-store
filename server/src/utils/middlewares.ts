@@ -1,6 +1,3 @@
-import jwt from 'jsonwebtoken';
-import { JWT_SECRET } from './config';
-
 const unknownEndpoint = (_req: any, res: any): void => {
     res.status(404).send({ error: 'unknownEndpoint' });
 };
@@ -15,26 +12,22 @@ const errorHandler = (err: any, _req: any, res: any, next: any): void => {
     }
 };
 
-const jwtHandler = (req: any, _res: any, next: any) => {
-    const token = req.cookies.access_token;
-    if (!token) {
-        return next();
-    }
-    try {
-        req.body.user = jwt.verify(token, JWT_SECRET);
-        next();
-    } catch (err) {
-        next(err);
-    }
-};
-
 const isLoggedIn = (req: any, res: any, next: any): void => {
-    const token = req.cookies.access_token;
-    if (token) {
+    const session = req.session;
+    if (session.user) {
         next();
     } else {
         res.status(401).send({ error: 'unauthorized access' });
     }
 };
 
-export default { unknownEndpoint, errorHandler, jwtHandler, isLoggedIn };
+const isNotLoggedIn = (req: any, res: any, next: any): void => {
+    const session = req.session;
+    if (session.user) {
+        res.status(401).send({ error: 'unauthorized access' });
+    } else {
+        next();
+    }
+};
+
+export default { unknownEndpoint, errorHandler, isLoggedIn, isNotLoggedIn};
