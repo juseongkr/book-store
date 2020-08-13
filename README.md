@@ -74,7 +74,7 @@ bash ./run.sh
 ----
 
 ### Todo List
-- [ ] Craete user sign up page
+- [x] <del>Craete user sign up page</del>
 - [ ] Create user info page
 - [ ] Update error message
 - [ ] Create End-to-End test
