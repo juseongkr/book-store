@@ -30,4 +30,4 @@ const isNotLoggedIn = (req: any, res: any, next: any): void => {
     }
 };
 
-export default { unknownEndpoint, errorHandler, isLoggedIn, isNotLoggedIn};
+export default { unknownEndpoint, errorHandler, isLoggedIn, isNotLoggedIn };

@@ -16,18 +16,15 @@ import middleware from './utils/middlewares';
 import authRouter from './routes/auth';
 import hpp from 'hpp';
 
-console.log('CONNECTING TO', MONGODB_URI);
-if (MONGODB_URI === 'undefined') {
-    console.log('CONNECTIION FIALED', MONGODB_URI);
+if (MONGODB_URI === 'undefined' || REDIS_HOST === 'undefined') {
+    console.log('PATH ERROR', MONGODB_URI, REDIS_HOST);
     process.exit(0);
 }
+
 mongoose.connect(MONGODB_URI, {
     useCreateIndex: true,
     useNewUrlParser: true,
 	useUnifiedTopology: true,
-})
-.then(() => {
-    console.log('CONNECTED TO DB');
 })
 .catch(err => {
     console.error('CONNECTION FAILED', err.message);
