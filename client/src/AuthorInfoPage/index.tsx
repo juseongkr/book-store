@@ -7,12 +7,12 @@ import { baseUrl } from '../constants';
 import { Author } from '../types';
 import UpdateAuthorModal from '../UpdateAuthorModal';
 
-const AuthorInfoPage: React.FC = () => {
+const AuthorInfoPage: React.FC = (): JSX.Element => {
     const [ { authors }, dispatch ] = useStateValue();
     const [ modalOpen, setModalOpen ] = React.useState<boolean>(false);
     const [ error, setError ] = React.useState<string>('');
     const { ssn } = useParams<{ ssn: string }>();
-    const author = Object.values(authors).find(a => a.ssn === ssn);
+    const author: Author | undefined = Object.values(authors).find(a => a.ssn === ssn);
 
     const openModal = (): void => {
         setModalOpen(true);
@@ -23,7 +23,7 @@ const AuthorInfoPage: React.FC = () => {
         setError('');
     };
 
-    const submitUpdateAuthor = async (values: Author) => {
+    const submitUpdateAuthor = async (values: Author): Promise<void> => {
         try {
             const updatedAuthor: Author = {
                 ...values,
@@ -39,7 +39,7 @@ const AuthorInfoPage: React.FC = () => {
         }
     };
 
-    const deleteAuthor = async () => {
+    const deleteAuthor = async (): Promise<void> => {
         try {
             const { data: authorList } = await axios.get<Author>(`${baseUrl}/authors/${ssn}`);
             await axios.delete<unknown>(`${baseUrl}/authors/${ssn}`);

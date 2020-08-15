@@ -18,10 +18,10 @@ interface NumberProps extends FieldProps {
 interface SelectProps {
     label: string;
     name: string;
-    options: GenderSelect[];
+    options: Array<GenderSelect>;
 }
 
-export const TextField: React.FC<TextProps> = ({ field, label, placeholder }: TextProps) => {
+export const TextField: React.FC<TextProps> = ({ field, label, placeholder }: TextProps): JSX.Element => {
     return (
         <Form.Field>
             <label>{ label }</label>
@@ -33,7 +33,7 @@ export const TextField: React.FC<TextProps> = ({ field, label, placeholder }: Te
     );
 };
 
-export const NumberField: React.FC<NumberProps> = ({ field, label, min, max }: NumberProps) => {
+export const NumberField: React.FC<NumberProps> = ({ field, label, min, max }: NumberProps): JSX.Element => {
     return (
         <Form.Field>
             <label>{ label }</label>
@@ -45,7 +45,7 @@ export const NumberField: React.FC<NumberProps> = ({ field, label, min, max }: N
     );
 };
 
-export const SelectField: React.FC<SelectProps> = ({ label, name, options }: SelectProps) => {
+export const SelectField: React.FC<SelectProps> = ({ label, name, options }: SelectProps): JSX.Element => {
     return (
         <Form.Field>
             <label>{ label }</label>
@@ -62,7 +62,7 @@ export const SelectField: React.FC<SelectProps> = ({ label, name, options }: Sel
     );
 };
 
-export const PasswordField: React.FC<TextProps> = ({ field, label, placeholder }: TextProps) => {
+export const PasswordField: React.FC<TextProps> = ({ field, label, placeholder }: TextProps): JSX.Element => {
     return (
         <Form.Field>
             <label>{ label }</label>

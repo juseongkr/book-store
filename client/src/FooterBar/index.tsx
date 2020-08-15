@@ -5,7 +5,7 @@ import { useStateValue } from '../state/state';
 import { ActiveItem } from '../types';
 import { BookListPage, AuthorListPage } from '../MenuBar';
 
-const FooterBar: React.FC = () => {
+const FooterBar: React.FC = (): JSX.Element => {
   const [ , dispatch ] = useStateValue();
 
   return (

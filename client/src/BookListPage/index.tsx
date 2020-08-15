@@ -8,7 +8,7 @@ import RatingBar from '../RatingBar';
 import { baseUrl } from '../constants';
 import { Link } from 'react-router-dom';
 
-const BookListPage: React.FC = () => {
+const BookListPage: React.FC = (): JSX.Element => {
     const [ { books }, dispatch ] = useStateValue();
     const [ modalOpen, setModalOpen ] = React.useState<boolean>(false);
     const [ error, setError ] = React.useState<string>('');
@@ -24,7 +24,7 @@ const BookListPage: React.FC = () => {
 
     const genISBN = (): string => Math.floor(1000000000 + Math.random() * 9000000000).toString();
 
-    const submitNewBook = async (values: Book) => {
+    const submitNewBook = async (values: Book): Promise<void> => {
         try {
             const book: Book = {
                 ...values,

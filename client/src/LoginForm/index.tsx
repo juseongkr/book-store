@@ -7,7 +7,7 @@ import { useStateValue } from '../state/state';
 import { useHistory } from 'react-router-dom';
 import RegisterModal from '../RegisterModal';
 
-const LoginForm: React.FC = () => {
+const LoginForm: React.FC = (): JSX.Element => {
     const history = useHistory();
     const [ , dispatch ] = useStateValue();
     const [ error, setError ] = React.useState<string>('');
@@ -24,7 +24,7 @@ const LoginForm: React.FC = () => {
         setError('');
     };
 
-    const submitRegister = async (values: NewUser)=> {
+    const submitRegister = async (values: NewUser): Promise<void> => {
         try {
             const newUser: User = {
                 username: values.username,
@@ -41,7 +41,7 @@ const LoginForm: React.FC = () => {
         }
     };
     
-    const userLogin = async () => {
+    const userLogin = async (): Promise<void> => {
         if (username !== '' && password !== '') {
             try {
                 const { data: user } = await axios.post<User>(`${baseUrl}/auth/login`, { username, password });

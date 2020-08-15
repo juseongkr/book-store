@@ -8,12 +8,12 @@ import RatingBar from '../RatingBar';
 import { Book } from '../types';
 import UpdateBookModal from '../UpdateBookModal';
 
-const BookInfoPage: React.FC = () => {
+const BookInfoPage: React.FC = (): JSX.Element => {
     const [ { books }, dispatch ] = useStateValue();
     const [ modalOpen, setModalOpen ] = React.useState<boolean>(false);
     const [ error, setError ] = React.useState<string>('');
     const { isbn } = useParams<{ isbn: string }>();
-    const book = Object.values(books).find(b => b.isbn === isbn);
+    const book: Book | undefined = Object.values(books).find(b => b.isbn === isbn);
 
     const openModal = (): void => {
         setModalOpen(true);
@@ -24,7 +24,7 @@ const BookInfoPage: React.FC = () => {
         setError('');
     };
     
-    const submitUpdateBook = async (values: Book) => {
+    const submitUpdateBook = async (values: Book): Promise<void> => {
         try {
             const updatedBook: Book = {
                 ...values,
@@ -40,7 +40,7 @@ const BookInfoPage: React.FC = () => {
         }
     };
 
-    const deleteBook = async () => {
+    const deleteBook = async (): Promise<void> => {
         try {
             const { data: bookList } = await axios.get<Book>(`${baseUrl}/books/${isbn}`);
             await axios.delete<unknown>(`${baseUrl}/books/${isbn}`);

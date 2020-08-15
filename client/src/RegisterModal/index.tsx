@@ -3,7 +3,7 @@ import RegisterForm from './RegisterForm';
 import { Modal, Segment } from 'semantic-ui-react';
 import { RegisterFormProps } from '../types';
 
-const RegisterModal: React.FC<RegisterFormProps> = ({ onSubmit, onClose, modalOpen, errMsg }: RegisterFormProps) => {
+const RegisterModal: React.FC<RegisterFormProps> = ({ onSubmit, onClose, modalOpen, errMsg }: RegisterFormProps): JSX.Element => {
     return (
         <Modal size='small' open={ modalOpen } onClose={ onClose } centered={ false } closeIcon>
             <Modal.Header>Book Store Sign up</Modal.Header>

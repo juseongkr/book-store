@@ -3,10 +3,11 @@ import { RegisterFormProps, NewUser } from '../types';
 import { Form as SemanticForm, Grid, Button} from 'semantic-ui-react';
 import { Formik, Field, Form } from 'formik';
 import { TextField, PasswordField } from '../Form';
+import { emailRegex } from '../constants';
 
 type Props = Omit<RegisterFormProps, 'errMsg' | 'modalOpen'>;
 
-const RegisterForm: React.FC<Props> = ({ onSubmit, onClose }: Props) => {
+const RegisterForm: React.FC<Props> = ({ onSubmit, onClose }: Props): JSX.Element => {
     const initValue: NewUser = {
         username: '',
         password: '',
@@ -15,12 +16,11 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, onClose }: Props) => {
     };
 
     const checkForm = (values: NewUser) => {
-        const reg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const errors: {
             [field: string]: string;
         } = {};
 
-        if (!values.username || !values.username?.match(reg)) {
+        if (!values.username || !values.username?.match(emailRegex)) {
             errors.username = 'You must fill out email';
         }
         if (!values.password || !values.passwordCheck || values.password.length < 8) {

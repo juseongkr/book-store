@@ -2,14 +2,14 @@ export enum Gender {
     Male = "male",
     Female = "female",
     Other = "other",
-};
+}
 
 export enum ActiveItem {
     Home = 'home',
     Book = 'book',
     Author = 'author',
     Login = 'login',
-};
+}
 
 export type GenderSelect = {
     value: Gender;
@@ -22,7 +22,7 @@ export interface Author {
     birth?: string;
     address?: string;
     gender: Gender;
-};
+}
 
 export interface Book {
     isbn: string;
@@ -32,13 +32,13 @@ export interface Book {
     genres: string[];
     rating?: number;
     description?: string;
-};
+}
 
 export interface User {
     username: string;
     password: string;
     name?: string;
-};
+}
 
 export type AuthorInfo = Omit<Author, 'ssn'>;
 export type BookInfo = Omit<Book, 'isbn'>;

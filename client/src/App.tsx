@@ -12,7 +12,7 @@ import MainPage from './MainPage';
 import FooterBar from './FooterBar';
 import MenuBar, { BookListPage, AuthorListPage, BookInfoPage, AuthorInfoPage, LoginForm } from './MenuBar';
 
-const App: React.FC = () => {
+const App: React.FC = (): JSX.Element => {
   const [ { actived }, dispatch ] = useStateValue();
 
   React.useEffect(() => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Header } from 'semantic-ui-react';
 
-const MainPage: React.FC = () => {
+const MainPage: React.FC = (): JSX.Element => {
     return (
         <Container text>
             <Header as='h2' content='Welcome to Book Store 📚' style={ {

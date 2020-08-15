@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React from 'react';
 import { State, Action, StateProviderProps, ActiveItem } from '../types';
 
 const initState: State = {
@@ -8,13 +8,13 @@ const initState: State = {
     actived: ActiveItem.Home,
 };
 
-export const StateContext = createContext<[State, React.Dispatch<Action>]>([
+export const StateContext = React.createContext<[State, React.Dispatch<Action>]>([
     initState,
-    () => initState
+    (): State => initState
 ]);
 
-export const StateProvider: React.FC<StateProviderProps> = ({ reducer, children }: StateProviderProps) => {
-    const [ state, dispatch ] = useReducer(reducer, initState);
+export const StateProvider: React.FC<StateProviderProps> = ({ reducer, children }: StateProviderProps): JSX.Element => {
+    const [ state, dispatch ] = React.useReducer<React.Reducer<State, Action>>(reducer, initState);
 
     return (
         <StateContext.Provider value={ [ state, dispatch ] }>
@@ -24,4 +24,4 @@ export const StateProvider: React.FC<StateProviderProps> = ({ reducer, children 
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const useStateValue = () => useContext(StateContext);
+export const useStateValue = () => React.useContext<[State, React.Dispatch<Action>]>(StateContext);

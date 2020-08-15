@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { baseUrl } from '../constants';
 import AddAuthorModal from '../AddAuthorModal';
 
-const AuthorListPage: React.FC = () => {
+const AuthorListPage: React.FC = (): JSX.Element => {
     const [ { authors }, dispatch ] = useStateValue();
     const [ modalOpen, setModalOpen ] = React.useState<boolean>(false);
     const [ error, setError ] = React.useState<string>('');
@@ -21,7 +21,7 @@ const AuthorListPage: React.FC = () => {
         setError('');
     };
 
-    const submitNewAuthor = async (values: Author) => {
+    const submitNewAuthor = async (values: Author): Promise<void> => {
         try {
             const { data: newAuthor } = await axios.post<Author>(`${baseUrl}/authors`, values);
             dispatch({ type: 'ADD_AUTHOR', payload: newAuthor });

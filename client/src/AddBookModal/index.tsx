@@ -3,7 +3,7 @@ import { Modal, Segment } from 'semantic-ui-react';
 import AddBookForm from './AddBookForm';
 import { BookFormProps } from '../types';
 
-const AddBookModal: React.FC<BookFormProps> = ({ onSubmit, onClose, modalOpen, errMsg }: BookFormProps) => {
+const AddBookModal: React.FC<BookFormProps> = ({ onSubmit, onClose, modalOpen, errMsg }: BookFormProps): JSX.Element => {
     return (
         <Modal open={ modalOpen } onClose={ onClose } centered={ false } closeIcon>
             <Modal.Header>Add a new book</Modal.Header>

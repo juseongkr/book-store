@@ -20,7 +20,7 @@ export const BookInfoPage = loadable(() => import('../BookInfoPage'), {
   fallback: <Loading/>,
 });
 
-export const AuthorInfoPage = loadable(() => import('../AuthorInfoPage'), {
+export const AuthorInfoPage  = loadable(() => import('../AuthorInfoPage'), {
   fallback: <Loading/>,
 });
 
@@ -28,10 +28,10 @@ export const LoginForm = loadable(() => import('../LoginForm'), {
   fallback: <Loading/>,
 });
 
-const MenuBar: React.FC = () => {
+const MenuBar: React.FC = (): JSX.Element => {
   const [ { username, actived }, dispatch ] = useStateValue();
   
-  const userLogout = async () => {
+  const userLogout = async (): Promise<void> => {
     try {
       await axios.post<User>(`${baseUrl}/auth/logout`);
       window.localStorage.removeItem('loggedUser');

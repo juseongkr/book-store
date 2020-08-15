@@ -3,10 +3,11 @@ import { Formik, Field, Form } from "formik";
 import { Grid, Button } from 'semantic-ui-react';
 import { TextField, NumberField } from '../Form';
 import { BookFormProps, Book } from '../types';
+import { dateRegex } from '../constants';
 
 type Props = Omit<BookFormProps, 'errMsg' | 'modalOpen'>;
 
-const AddBookForm: React.FC<Props> = ({ onSubmit, onClose }: Props) => {
+const AddBookForm: React.FC<Props> = ({ onSubmit, onClose }: Props): JSX.Element => {
     const initValue: Book = {
         isbn: '',
         title: '',
@@ -18,7 +19,6 @@ const AddBookForm: React.FC<Props> = ({ onSubmit, onClose }: Props) => {
     };
 
     const checkForm = (values: Book) => {
-        const reg = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/g;
         const errFill = 'You must fill out form';
         const errInvalid = 'Invalid date format';
         const errors: {
@@ -28,7 +28,7 @@ const AddBookForm: React.FC<Props> = ({ onSubmit, onClose }: Props) => {
         if (!values.title) {
             errors.title = errFill;
         }
-        if (!values.published.match(reg)) {
+        if (!values.published?.match(dateRegex)) {
             errors.published = errInvalid;
         }
         if (!values.author) {

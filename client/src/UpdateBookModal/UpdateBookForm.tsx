@@ -5,10 +5,11 @@ import { Grid, Button } from 'semantic-ui-react';
 import { TextField, NumberField } from '../Form';
 import { useStateValue } from '../state';
 import { useParams } from 'react-router-dom';
+import { dateRegex } from '../constants';
 
 type Props = Omit<BookFormProps, 'errMsg' | 'modalOpen'>;
 
-const UpdateBookForm: React.FC<Props> = ({ onSubmit, onClose }: Props) => {
+const UpdateBookForm: React.FC<Props> = ({ onSubmit, onClose }: Props): JSX.Element => {
     const [ { books }, ] = useStateValue();
     const { isbn } = useParams<{ isbn: string }>();
 
@@ -17,7 +18,6 @@ const UpdateBookForm: React.FC<Props> = ({ onSubmit, onClose }: Props) => {
     };
 
     const checkForm = (values: Book) => {
-        const reg = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/g;
         const errFill = 'You must fill out form';
         const errInvalid = 'Invalid date format';
         const errors: {
@@ -27,7 +27,7 @@ const UpdateBookForm: React.FC<Props> = ({ onSubmit, onClose }: Props) => {
         if (!values.title) {
             errors.title = errFill;
         }
-        if (!values.published.match(reg)) {
+        if (!values.published?.match(dateRegex)) {
             errors.published = errInvalid;
         }
         if (!values.author) {
