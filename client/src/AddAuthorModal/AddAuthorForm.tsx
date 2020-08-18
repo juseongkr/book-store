@@ -20,6 +20,7 @@ const AddAuthorForm: React.FC<Props> = ({ onSubmit, onClose }: Props): JSX.Eleme
         birth: '',
         address: '',
         gender: Gender.Other,
+        uploader: '',
     };
 
     const checkForm = (values: Author) => {

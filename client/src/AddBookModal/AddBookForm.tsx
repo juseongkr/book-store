@@ -16,6 +16,7 @@ const AddBookForm: React.FC<Props> = ({ onSubmit, onClose }: Props): JSX.Element
         genres: [],
         rating: 0,
         description: '',
+        uploader: '',
     };
 
     const checkForm = (values: Book) => {

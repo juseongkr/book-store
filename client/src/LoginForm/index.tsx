@@ -53,6 +53,8 @@ const LoginForm: React.FC = (): JSX.Element => {
             } catch (err) {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 console.error(err.response.data.error);
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                setError(err.response.data.error);
             }
         }
     };
@@ -65,6 +67,7 @@ const LoginForm: React.FC = (): JSX.Element => {
                         Book Store Log in
                     </Header>
                     <Form size='large'>
+                        { error && <Segment inverted color='red'>{ `Error: ${error}` }</Segment>}
                         <Segment>
                             <Form.Input autoFocus fluid icon='user' iconPosition='left' name='username' placeholder='Email' onChange={ e => setUsername(e.target.value) }/>
                             <Form.Input fluid icon='lock' iconPosition='left' name='password' placeholder='Password' type='password' onChange={ e => setPassword(e.target.value) }/>
