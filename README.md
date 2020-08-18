@@ -13,6 +13,8 @@ https://book-store-ts.herokuapp.com/
 - [Getting stared](#getting-started)
 - [Build](#build)
 - [Test](#test)
+  - [Frontend](#test-frontend)
+  - [Backend](#test-backend)
 - [Run](#run)
 
 ## <a id="architecture" style="color: black;">Architecture</a>
@@ -50,23 +52,31 @@ server
 └── tsconfig.json
 ```
 
-## Getting started
+## <a id="getting-started" style="color: black;">Getting stared</a>
 Before getting started, you need ```.env``` file at ```server/build/src/``` following the ```.env.template``` file located in ```server``` directory.
 
-## Build
+## <a id="build" style="color: black;">Build</a>
 ```shellscript
 bash ./build.sh
 ```
 After build project, you have to place ```.env``` file in right position.
 Feel free to open a new issue if you're having any problems.
 
-## Test
-This test code uses a jest to check the backend server API.
+## <a id="test" style="color: black;">Test</a>
+
+### <a id="test-frontend" style="color: black;">Test Frontend</a>
+Backend server test uses a jest to check the backend server API.
 ```shellscript
 npm run test
 ```
 
-## Run
+### <a id="test-backend" style="color: black;">Test Backend</a>
+Frontend test uses a cypress to check the front page action. You need a local server is required to proceed with the test. Therefore, the local server should be run before run the test.
+```shellscript
+npm run cypress:run
+```
+
+## <a id="run" style="color: black;">Run</a>
 ```shellscript
 bash ./run.sh
 ```
@@ -76,6 +86,6 @@ bash ./run.sh
 ### Todo List
 - [x] <del>Craete user sign up page</del>
 - [ ] Create user info page
-- [ ] Update error message
-- [ ] Create End-to-End test
+- [x] <del>Update error message</del>
+- [x] <del>Create End-to-End test</del>
 - [ ] Server Side Rendering
