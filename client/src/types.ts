@@ -42,6 +42,11 @@ export interface User {
     name?: string;
 }
 
+export interface UserInfo {
+    username: string;
+    id: string;
+}
+
 export type AuthorInfo = Omit<Author, 'ssn'>;
 export type BookInfo = Omit<Book, 'isbn'>;
 
@@ -52,14 +57,14 @@ export type State = {
     authors: {
         [ssn: string]: Author,
     },
-    username: string,
+    userInfo: UserInfo,
     actived: ActiveItem,
 };
 
 export type Action =
 | {
     type: 'SET_BOOK_LIST';
-    payload: Book[];
+    payload: Array<Book>;
 } | {
     type: 'ADD_BOOK';
     payload: Book;
@@ -68,7 +73,7 @@ export type Action =
     payload: Book;
 } | {
     type: 'SET_AUTHOR_LIST';
-    payload: Author[];
+    payload: Array<Author>;
 } | {
     type: 'ADD_AUTHOR';
     payload: Author;
@@ -77,7 +82,7 @@ export type Action =
     payload: Author;
 } | {
     type: 'SET_USER';
-    payload: string;
+    payload: UserInfo;
 } | {
     type: 'SET_ACTIVE';
     payload: ActiveItem;

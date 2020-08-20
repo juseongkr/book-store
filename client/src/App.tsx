@@ -26,7 +26,7 @@ const App: React.FC = (): JSX.Element => {
         if (token) {
           const tokenObj = JSON.parse(token);
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          dispatch({ type: 'SET_USER', payload: tokenObj.username });
+          dispatch({ type: 'SET_USER', payload: { username: tokenObj?.username, id: tokenObj?.userid } });
         }
       } catch (err) {
         console.log(err);

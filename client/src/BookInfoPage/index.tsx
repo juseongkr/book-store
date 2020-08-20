@@ -9,7 +9,7 @@ import { Book } from '../types';
 import UpdateBookModal from '../UpdateBookModal';
 
 const BookInfoPage: React.FC = (): JSX.Element => {
-    const [ { books }, dispatch ] = useStateValue();
+    const [ { userInfo, books }, dispatch ] = useStateValue();
     const [ modalOpen, setModalOpen ] = React.useState<boolean>(false);
     const [ error, setError ] = React.useState<string>('');
     const { isbn } = useParams<{ isbn: string }>();
@@ -58,14 +58,14 @@ const BookInfoPage: React.FC = (): JSX.Element => {
                 <Divider/>
                 <div>Author: { book?.author }</div>
                 <div>Published: { book?.published }</div>
-                <div>Genres: {book?.genres.join(', ') }</div>
-                <div>Description: {book?.description }</div>
+                <div>Genres: { book?.genres.join(', ') }</div>
+                <div>Description: { book?.description }</div>
             </Container>
             <Divider hidden/>
             <Button as={ Link } to='/books' color='grey'>Back</Button>
             <UpdateBookModal modalOpen={ modalOpen } onSubmit={ submitUpdateBook } onClose={ closeModal } errMsg={ error }/>
-            <Button color='blue' onClick={ () => openModal() }>Update</Button>
-            <Button as={ Link } to='/books' color='red' onClick={ deleteBook }>Delete</Button>
+            <Button color='blue' onClick={ openModal } disabled={ book?.uploader !== userInfo.id }>Update</Button>
+            <Button as={ Link } to='/books' color='red' onClick={ deleteBook } disabled={ book?.uploader !== userInfo.id }>Delete</Button>
         </div>
     );
 };

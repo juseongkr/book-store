@@ -63,7 +63,7 @@ export const reducer = (state: State, action: Action): State => {
         case 'SET_USER':
             return {
                 ...state,
-                username: action.payload,
+                userInfo: action.payload,
             };
         case 'SET_ACTIVE':
             return {

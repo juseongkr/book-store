@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Grid, Header, Segment, Form, Button, Divider } from 'semantic-ui-react';
-import { User, NewUser } from '../types';
+import { User, UserInfo, NewUser } from '../types';
 import { baseUrl } from '../constants';
 import { useStateValue } from '../state/state';
 import { useHistory } from 'react-router-dom';
@@ -44,9 +44,9 @@ const LoginForm: React.FC = (): JSX.Element => {
     const userLogin = async (): Promise<void> => {
         if (username !== '' && password !== '') {
             try {
-                const { data: user } = await axios.post<User>(`${baseUrl}/auth/login`, { username, password });
+                const { data: user } = await axios.post<UserInfo>(`${baseUrl}/auth/login`, { username, password });
                 window.localStorage.setItem('loggedUser', JSON.stringify(user));
-                dispatch({ type: 'SET_USER', payload: user.username });
+                dispatch({ type: 'SET_USER', payload: user });
                 setUsername('');
                 setPassword('');
                 history.push('/');

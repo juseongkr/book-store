@@ -29,13 +29,13 @@ export const LoginForm = loadable(() => import('../LoginForm'), {
 });
 
 const MenuBar: React.FC = (): JSX.Element => {
-  const [ { username, actived }, dispatch ] = useStateValue();
+  const [ { userInfo, actived }, dispatch ] = useStateValue();
   
   const userLogout = async (): Promise<void> => {
     try {
       await axios.post<User>(`${baseUrl}/auth/logout`);
       window.localStorage.removeItem('loggedUser');
-      dispatch({ type: 'SET_USER', payload: '' });
+      dispatch({ type: 'SET_USER', payload: { username: '', id: '' } });
       dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Home });
     } catch (err) {
       console.error(err);
@@ -48,7 +48,7 @@ const MenuBar: React.FC = (): JSX.Element => {
         <Menu.Item as={ Link } to='/books' color='teal' name='book' active={ actived === 'book' } onClick={ () => dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Book }) } onMouseOver={ () => BookListPage.preload() }>Book</Menu.Item>
         <Menu.Item as={ Link } to='/authors' color='teal' name='author' active={ actived === 'author' } onClick={ () => dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Author }) } onMouseOver={ () => AuthorListPage.preload() }>Author</Menu.Item>
         {
-          username ?
+          userInfo?.username ?
           <Menu.Item as={ Link } to='/' color='teal' name='logout' position='right' onClick={ userLogout }>Logout</Menu.Item> :
           <Menu.Item as={ Link } to='/login' color='teal' name='login' position='right' active={ actived === 'login' } onClick={ () => dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Login }) } onMouseOver={ () => LoginForm.preload() }>Login</Menu.Item>
         }

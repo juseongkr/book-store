@@ -8,7 +8,7 @@ import { Author } from '../types';
 import UpdateAuthorModal from '../UpdateAuthorModal';
 
 const AuthorInfoPage: React.FC = (): JSX.Element => {
-    const [ { authors }, dispatch ] = useStateValue();
+    const [ { userInfo, authors }, dispatch ] = useStateValue();
     const [ modalOpen, setModalOpen ] = React.useState<boolean>(false);
     const [ error, setError ] = React.useState<string>('');
     const { ssn } = useParams<{ ssn: string }>();
@@ -62,8 +62,8 @@ const AuthorInfoPage: React.FC = (): JSX.Element => {
             <Divider hidden/>
             <Button as={ Link } to='/authors' color='grey'>Back</Button>
             <UpdateAuthorModal modalOpen={ modalOpen } onSubmit={ submitUpdateAuthor } onClose={ closeModal } errMsg={ error }/>
-            <Button color='blue' onClick={ openModal }>Update</Button>
-            <Button as={ Link } to='/authors' color='red' onClick={ deleteAuthor }>Delete</Button>
+            <Button color='blue' onClick={ openModal } disabled={ author?.uploader !== userInfo.id }>Update</Button>
+            <Button as={ Link } to='/authors' color='red' onClick={ deleteAuthor } disabled={ author?.uploader !== userInfo.id }>Delete</Button>
         </div>
     );
 };

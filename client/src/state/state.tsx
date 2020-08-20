@@ -4,7 +4,7 @@ import { State, Action, StateProviderProps, ActiveItem } from '../types';
 const initState: State = {
     books: { },
     authors: { },
-    username: '',
+    userInfo: { username: '', id: '' },
     actived: ActiveItem.Home,
 };
 
