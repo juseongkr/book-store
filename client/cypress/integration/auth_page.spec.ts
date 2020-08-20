@@ -12,8 +12,8 @@ describe('Auth page testing', () => {
         cy.contains('Login').click();
         cy.contains('Sign up').click();
         cy.contains('Book Store Sign up');
+    });
 
-    })
     describe('Register page testing', () => {
         it('Register with a new user', () => {
             cy.register(user);
