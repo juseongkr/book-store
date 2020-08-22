@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Grid, Header, Segment, Form, Button, Divider } from 'semantic-ui-react';
-import { User, UserInfo, NewUser } from '../types';
+import { User, UserInfo, NewUser, ActiveItem } from '../types';
 import { baseUrl } from '../constants';
 import { useStateValue } from '../state/state';
 import { useHistory } from 'react-router-dom';
@@ -32,6 +32,7 @@ const LoginForm: React.FC = (): JSX.Element => {
                 name: values?.name,
             };
             await axios.post(`${baseUrl}/auth/register`, newUser);
+            dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Home });
             history.push('/');
         } catch (err) {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

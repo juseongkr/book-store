@@ -9,6 +9,7 @@ export enum ActiveItem {
     Book = 'book',
     Author = 'author',
     Login = 'login',
+    Info = 'info',
 }
 
 export type GenderSelect = {
@@ -45,6 +46,7 @@ export interface User {
 export interface UserInfo {
     username: string;
     id: string;
+    name?: string;
 }
 
 export type AuthorInfo = Omit<Author, 'ssn'>;

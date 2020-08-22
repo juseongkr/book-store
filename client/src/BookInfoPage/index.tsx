@@ -29,7 +29,7 @@ const BookInfoPage: React.FC = (): JSX.Element => {
             const updatedBook: Book = {
                 ...values,
             };
-            await axios.put(`${baseUrl}/books/${isbn}`, updatedBook);
+            await axios.put<Book>(`${baseUrl}/books/${isbn}`, updatedBook);
             dispatch({ type: 'ADD_BOOK', payload: updatedBook });
             closeModal();
         } catch (err) {

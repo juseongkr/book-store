@@ -20,12 +20,16 @@ export const BookInfoPage = loadable(() => import('../BookInfoPage'), {
   fallback: <Loading/>,
 });
 
-export const AuthorInfoPage  = loadable(() => import('../AuthorInfoPage'), {
+export const AuthorInfoPage = loadable(() => import('../AuthorInfoPage'), {
   fallback: <Loading/>,
 });
 
 export const LoginForm = loadable(() => import('../LoginForm'), {
   fallback: <Loading/>,
+});
+
+export const InfoPage = loadable(() => import('../InfoPage'), {
+  fallback:<Loading/>,
 });
 
 const MenuBar: React.FC = (): JSX.Element => {
@@ -45,13 +49,16 @@ const MenuBar: React.FC = (): JSX.Element => {
   return (
     <Menu pointing secondary>
       <Menu.Item as={ Link } to='/' color='teal' name='home' active={ actived === 'home' } onClick={ () => dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Home }) }>Home</Menu.Item>
-        <Menu.Item as={ Link } to='/books' color='teal' name='book' active={ actived === 'book' } onClick={ () => dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Book }) } onMouseOver={ () => BookListPage.preload() }>Book</Menu.Item>
-        <Menu.Item as={ Link } to='/authors' color='teal' name='author' active={ actived === 'author' } onClick={ () => dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Author }) } onMouseOver={ () => AuthorListPage.preload() }>Author</Menu.Item>
-        {
-          userInfo?.username ?
-          <Menu.Item as={ Link } to='/' color='teal' name='logout' position='right' onClick={ userLogout }>Logout</Menu.Item> :
-          <Menu.Item as={ Link } to='/login' color='teal' name='login' position='right' active={ actived === 'login' } onClick={ () => dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Login }) } onMouseOver={ () => LoginForm.preload() }>Login</Menu.Item>
-        }
+      <Menu.Item as={ Link } to='/books' color='teal' name='book' active={ actived === 'book' } onClick={ () => dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Book }) } onMouseOver={ () => BookListPage.preload() }>Book</Menu.Item>
+      <Menu.Item as={ Link } to='/authors' color='teal' name='author' active={ actived === 'author' } onClick={ () => dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Author }) } onMouseOver={ () => AuthorListPage.preload() }>Author</Menu.Item>
+      {
+        userInfo?.username ?
+        <Menu.Menu position='right'>
+          <Menu.Item as={ Link } to='/info' color='teal' name='info' active={ actived === 'info' } onClick={ () => dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Info }) } onMouseOver={ () => InfoPage.preload() }>{ userInfo.username }</Menu.Item>
+          <Menu.Item as={ Link } to='/' color='teal' name='logout' onClick={ userLogout }>Logout</Menu.Item>
+        </Menu.Menu> : 
+        <Menu.Item as={ Link } to='/login' color='teal' name='login' position='right' active={ actived === 'login' } onClick={ () => dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Login }) } onMouseOver={ () => LoginForm.preload() }>Login</Menu.Item>
+      }
     </Menu>
   );
 };

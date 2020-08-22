@@ -10,7 +10,7 @@ import { useStateValue } from './state/state';
 import { baseUrl } from './constants';
 import MainPage from './MainPage';
 import FooterBar from './FooterBar';
-import MenuBar, { BookListPage, AuthorListPage, BookInfoPage, AuthorInfoPage, LoginForm } from './MenuBar';
+import MenuBar, { BookListPage, AuthorListPage, BookInfoPage, AuthorInfoPage, LoginForm, InfoPage } from './MenuBar';
 
 const App: React.FC = (): JSX.Element => {
   const [ { actived }, dispatch ] = useStateValue();
@@ -26,7 +26,7 @@ const App: React.FC = (): JSX.Element => {
         if (token) {
           const tokenObj = JSON.parse(token);
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          dispatch({ type: 'SET_USER', payload: { username: tokenObj?.username, id: tokenObj?.userid } });
+          dispatch({ type: 'SET_USER', payload: { username: tokenObj?.username, id: tokenObj?.id } });
         }
       } catch (err) {
         console.log(err);
@@ -49,6 +49,7 @@ const App: React.FC = (): JSX.Element => {
             <Route path='/authors' render={ () => <AuthorListPage/> }/>
             <Route path='/books' render={ () => <BookListPage/> }/>
             <Route path='/login' render={ () => <LoginForm/> }/>
+            <Route path='/info' render={ () => <InfoPage/> }/>
             <Route path='/' render={ () => <MainPage/> } exact/>
           </Switch>
         </Container>
