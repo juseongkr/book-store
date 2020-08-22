@@ -53,7 +53,7 @@ authRouter.post('/login', middleware.isNotLoggedIn, async (req, res, next) => {
     }
 
     try {
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ username, deactivated: false });
         if (!user) {
             return res.status(401).json({
                 error: 'invalid username',
@@ -107,7 +107,11 @@ authRouter.delete('/unregister', middleware.isLoggedIn, async (req, res, next) =
             });
         }
 
-        const deleted = await User.findOneAndDelete({ username });
+        const updatedUser = {
+            ...user.toJSON(),
+            deactivated: true,
+        };
+        const deleted = await User.findOneAndUpdate({ username, deactivated: false }, updatedUser, { new: true });
         if (deleted) {
             req.session!.destroy(err => {
                 if (err) {
