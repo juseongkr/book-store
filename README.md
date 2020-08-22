@@ -4,8 +4,8 @@
 <img width="800" alt="img2" src="https://user-images.githubusercontent.com/10775915/90505751-1d377200-e18e-11ea-816e-735589849995.png"></img>
 <img width="800" alt="img" src="https://user-images.githubusercontent.com/10775915/89705010-6c162800-d994-11ea-977d-482480f3529e.png"></img>
 
-## Demo page
-https://book-store-ts.herokuapp.com/
+## Demo page]
+http://54.180.112.195/
 
 ## Contents
 - [Architecture](#architecture)
