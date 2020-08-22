@@ -2,6 +2,7 @@ import supertest from 'supertest';
 import mongoose from 'mongoose';
 import app from '../src/app';
 import { User } from '../src/types';
+import UserSchema from '../src/models/user';
 const api = supertest.agent(app);
 
 const user: User = {
@@ -140,5 +141,10 @@ describe('AUTH API TEST: Unregister', () => {
 });
 
 afterAll(async () => {
+    try {
+        await UserSchema.findOneAndDelete({ username: user.username });
+    } catch (err) {
+        console.error(err);
+    }
     mongoose.connection.close();
 });
