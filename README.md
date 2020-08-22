@@ -85,8 +85,5 @@ bash ./run.sh
 ----
 
 ### Todo List
-- [x] <del>Craete user sign up page</del>
 - [ ] Create user info page
-- [x] <del>Update error message</del>
-- [x] <del>Create End-to-End test</del>
 - [ ] Server Side Rendering
