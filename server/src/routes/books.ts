@@ -1,36 +1,40 @@
-import express from 'express';
+import express, { Request, Response, NextFunction, Router } from 'express';
+import { Document } from 'mongoose';
 import Book from '../models/book';
 import middleware from '../utils/middlewares';
+import logger from '../utils/logger';
 
-const booksRouter = express.Router();
+const booksRouter: Router = express.Router();
 
-booksRouter.get('/', async (_req, res, next) => {
+booksRouter.get('/', async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const books = await Book.find({}).sort({ createdAt: -1 });
+        const books: Array<Document> = await Book.find({}).sort({ createdAt: -1 });
         res.json(books);
     } catch (err) {
+        logger.error(err);
         next(err);
     }
 });
 
-booksRouter.get('/:isbn', async (req, res, next) => {
+booksRouter.get('/:isbn', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const book = await Book.findOne({ isbn: req.params.isbn });
+        const book: Document | null = await Book.findOne({ isbn: req.params.isbn });
         if (book) {
             res.json(book);
         } else {
             res.status(404).end();
         }
     } catch (err) {
+        logger.error(err);
         next(err);
     }
 });
 
-booksRouter.post('/', middleware.isLoggedIn, async (req, res, next) => {
-    const body = req.body;
-    const session = req.session;
+booksRouter.post('/', middleware.isLoggedIn, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const body: any = req.body;
+    const session: Express.Session | undefined = req.session;
     try {
-        const book = new Book({
+        const book: Document = new Book({
             isbn: body.isbn,
             title: body.title,
             published: body.published,
@@ -41,41 +45,47 @@ booksRouter.post('/', middleware.isLoggedIn, async (req, res, next) => {
             uploader: session!.user.id,
         });
         
-        const savedBook = await book.save();
+        const savedBook: Document = await book.save();
+        logger.info('book create: ' + body.isbn);
         res.json(savedBook);
     } catch (err) {
+        logger.error(err);
         next(err);
     }
 });
 
-booksRouter.delete('/:isbn', middleware.isLoggedIn, async (req, res, next) => {
-    const session = req.session;
+booksRouter.delete('/:isbn', middleware.isLoggedIn, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const session: Express.Session | undefined = req.session;
     try {
-        const deleted = await Book.findOneAndDelete({ uploader: session!.user.id, isbn: req.params.isbn });
+        const deleted: Document | null = await Book.findOneAndDelete({ uploader: session!.user.id, isbn: req.params.isbn });
         if (deleted) {
+            logger.info('book delete: ' + req.params.isbn);
             res.status(204).end();
         } else {
             res.status(400).end();
         }
     } catch (err) {
+        logger.error(err);
         next(err);
     }
 });
 
-booksRouter.put('/:isbn', middleware.isLoggedIn, async (req, res, next) => {
-    const body = req.body;
-    const session = req.session;
+booksRouter.put('/:isbn', middleware.isLoggedIn, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const body: any = req.body;
+    const session: Express.Session | undefined = req.session;
     try {
-        const book = {
+        const book: Document = {
             ...body,
         };
-        const updated = await Book.findOneAndUpdate({ uploader: session!.user.id, isbn: req.params.isbn }, book, { new: true });
+        const updated: Document | null = await Book.findOneAndUpdate({ uploader: session!.user.id, isbn: req.params.isbn }, book, { new: true });
         if (updated) {
+            logger.info('book update: ' + req.params.isbn);
             res.status(204).end();
         } else {
             res.status(400).end();
         }
     } catch (err) {
+        logger.error(err);
         next(err);
     }
 });

@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 mongoose.set('useFindAndModify', false);
 
-const userSchema = new mongoose.Schema({
+const userSchema: mongoose.Schema<unknown> = new mongoose.Schema({
     username: {
         type: String,
         minlength: 6,

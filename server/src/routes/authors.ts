@@ -1,36 +1,40 @@
-import express from 'express';
+import express, { Request, Response, NextFunction, Router } from 'express';
+import { Document } from 'mongoose';
 import Author from '../models/author';
 import middleware from '../utils/middlewares';
+import logger from '../utils/logger';
 
-const authorsRouter = express.Router();
+const authorsRouter: Router = express.Router();
 
-authorsRouter.get('/', async (_req, res, next) => {
+authorsRouter.get('/', async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const authors = await Author.find({}).sort({ createdAt: -1 });
+        const authors: Array<Document> = await Author.find({}).sort({ createdAt: -1 });
         res.json(authors);
     } catch (err) {
+        logger.error(err);
         next(err);
     }
 });
 
-authorsRouter.get('/:ssn', async (req, res, next) => {
+authorsRouter.get('/:ssn', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const author = await Author.findOne({ ssn: req.params.ssn });
+        const author: Document | null = await Author.findOne({ ssn: req.params.ssn });
         if (author) {
             res.json(author);
         } else {
             res.status(404).end();
         }
     } catch (err) {
+        logger.error(err);
         next(err);
     }
 });
 
-authorsRouter.post('/', middleware.isLoggedIn, async (req, res, next) => {
-    const body = req.body;
-    const session = req.session;
+authorsRouter.post('/', middleware.isLoggedIn, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const body: any = req.body;
+    const session: Express.Session | undefined = req.session;
     try {
-        const author = new Author({
+        const author: Document = new Author({
             ssn: body.ssn,
             name: body.name,
             gender: body.gender,
@@ -39,41 +43,47 @@ authorsRouter.post('/', middleware.isLoggedIn, async (req, res, next) => {
             uploader: session!.user.id,
         });
         
-        const savedAuthor = await author.save();
+        const savedAuthor: Document = await author.save();
+        logger.info('author create: ' + body.ssn);
         res.json(savedAuthor);
     } catch (err) {
+        logger.error(err);
         next(err);
     }
 });
 
-authorsRouter.delete('/:ssn', middleware.isLoggedIn, async (req, res, next) => {
-    const session = req.session;
+authorsRouter.delete('/:ssn', middleware.isLoggedIn, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const session: Express.Session | undefined = req.session;
     try {
-        const deleted = await Author.findOneAndDelete({ uploader: session!.user.id, ssn: req.params.ssn });
+        const deleted: Document | null = await Author.findOneAndDelete({ uploader: session!.user.id, ssn: req.params.ssn });
         if (deleted) {
+            logger.info('author delete: ' + req.params.ssn);
             res.status(204).end();
         } else {
             res.status(400).end();
         }
     } catch (err) {
+        logger.error(err);
         next(err);
     }
 });
 
-authorsRouter.put('/:ssn', middleware.isLoggedIn, async (req, res, next) => {
-    const body = req.body;
-    const session = req.session;
+authorsRouter.put('/:ssn', middleware.isLoggedIn, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const body: any = req.body;
+    const session: Express.Session | undefined = req.session;
     try {
-        const author = {
+        const author: Document = {
             ...body,
         };
-        const updated = await Author.findOneAndUpdate({ uploader: session!.user.id, ssn: req.params.ssn }, author, { new: true });
+        const updated: Document | null = await Author.findOneAndUpdate({ uploader: session!.user.id, ssn: req.params.ssn }, author, { new: true });
         if (updated) {
+            logger.info('author update: ' + req.params.ssn);
             res.status(204).end();
         } else {
             res.status(400).end();
         }
     } catch (err) {
+        logger.error(err);
         next(err);
     }
 });

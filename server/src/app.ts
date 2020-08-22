@@ -1,11 +1,12 @@
-import express from 'express';
+import express, { Express } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-import redis from 'redis';
 import connectRedis from 'connect-redis';
+import redis from 'redis';
+import hpp from 'hpp';
 
 import { MONGODB_URI, SECRET_KEY, REDIS_HOST, REDIS_PASSWORD } from './utils/config';
 import mongoose from 'mongoose';
@@ -14,10 +15,10 @@ import booksRouter from './routes/books';
 import authorsRouter from './routes/authors';
 import middleware from './utils/middlewares';
 import authRouter from './routes/auth';
-import hpp from 'hpp';
+import logger from './utils/logger';
 
 if (MONGODB_URI === 'undefined' || REDIS_HOST === 'undefined') {
-    console.log('PATH ERROR', MONGODB_URI, REDIS_HOST);
+    logger.info('PATH ERROR', MONGODB_URI, REDIS_HOST);
     process.exit(0);
 }
 
@@ -27,16 +28,16 @@ mongoose.connect(MONGODB_URI, {
 	useUnifiedTopology: true,
 })
 .catch(err => {
-    console.error('CONNECTION FAILED', err.message);
+    logger.error('CONNECTION FAILED', err.message);
 });
 
-const RedisStore = connectRedis(session);
-const redisClient = redis.createClient({
+const RedisStore: connectRedis.RedisStore = connectRedis(session);
+const redisClient: redis.RedisClient = redis.createClient({
     url: `redis://${REDIS_HOST}`,
     password: REDIS_PASSWORD,
 });
 
-const app = express();
+const app: Express = express();
 app.use(morgan('combined'));
 app.use(cors());
 app.use(helmet());

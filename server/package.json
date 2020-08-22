@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "app-root-path": "^3.0.0",
     "bcrypt": "^5.0.0",
     "connect-redis": "^5.0.0",
     "cookie-parser": "^1.4.5",
@@ -26,9 +27,12 @@
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.10.0",
     "pm2": "^4.4.0",
-    "redis": "^3.0.2"
+    "redis": "^3.0.2",
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.0"
   },
   "devDependencies": {
+    "@types/app-root-path": "^1.2.4",
     "@types/bcrypt": "^3.0.0",
     "@types/connect-redis": "0.0.14",
     "@types/cookie-parser": "^1.4.2",
@@ -46,6 +50,7 @@
     "@types/node": "^14.0.23",
     "@types/redis": "^2.8.25",
     "@types/supertest": "^2.0.10",
+    "@types/winston": "^2.4.4",
     "jest": "^26.1.0",
     "supertest": "^4.0.2",
     "ts-jest": "^26.1.3",

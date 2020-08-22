@@ -1,12 +1,14 @@
-import express from 'express';
+import express, { Request, Response, NextFunction, Router } from 'express';
+import { Document } from 'mongoose';
 import bcrypt from 'bcrypt';
 import User from '../models/user';
 import middleware from '../utils/middlewares';
+import logger from '../utils/logger';
 
-const authRouter = express.Router();
+const authRouter: Router = express.Router();
 
-authRouter.get('/check', middleware.isLoggedIn, (req, res) => {
-    const session = req.session;
+authRouter.get('/check', middleware.isLoggedIn, (req: Request, res: Response): void => {
+    const session: Express.Session | undefined = req.session;
     if (session?.user) {
         res.json({ username: session.user.username, id: session.user.id });
     } else {
@@ -14,7 +16,7 @@ authRouter.get('/check', middleware.isLoggedIn, (req, res) => {
     }
 });
 
-authRouter.post('/register', middleware.isNotLoggedIn, async (req, res, next) => {
+authRouter.post('/register', middleware.isNotLoggedIn, async (req: Request, res: Response, next: NextFunction) => {
     const { username, password, name } = req.body;
     if (!username || !password) {
         return res.status(401).json({
@@ -23,28 +25,29 @@ authRouter.post('/register', middleware.isNotLoggedIn, async (req, res, next) =>
     }
 
     try {
-        const user = await User.findOne({ username });
+        const user: Document | null = await User.findOne({ username });
         if (user) {
             return res.status(409).json({
                 error: 'username conflict',
             });
         }
 
-        const hash = await bcrypt.hash(password, 12);
-        const savedUser = await new User({
+        const hash: string = await bcrypt.hash(password, 12);
+        const savedUser: Document = await new User({
             password: hash,
             username,
             name,
         }).save();
 
+        logger.info('register: ' + username);
         res.json({ username, id: savedUser.get('id'), name });
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 });
 
-authRouter.post('/login', middleware.isNotLoggedIn, async (req, res, next) => {
+authRouter.post('/login', middleware.isNotLoggedIn, async (req: Request, res: Response, next: NextFunction) => {
     const { username, password } = req.body;
     if (!username || !password) {
         return res.status(401).json({
@@ -53,14 +56,14 @@ authRouter.post('/login', middleware.isNotLoggedIn, async (req, res, next) => {
     }
 
     try {
-        const user = await User.findOne({ username, deactivated: false });
+        const user: Document | null = await User.findOne({ username, deactivated: false });
         if (!user) {
             return res.status(401).json({
                 error: 'invalid username',
             });
         }
 
-        const valid = await bcrypt.compare(password, user.get('password'));
+        const valid: boolean = await bcrypt.compare(password, user.get('password'));
         if (!valid) {
             return res.status(401).json({
                 error: 'invalid password',
@@ -72,52 +75,57 @@ authRouter.post('/login', middleware.isNotLoggedIn, async (req, res, next) => {
             id: user.get('id'),
         };
 
+        logger.info('login: ' + username);
         res.json({ username, id: user.get('id') });
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 });
 
-authRouter.post('/logout', middleware.isLoggedIn, (req, res, next) => {
+authRouter.post('/logout', middleware.isLoggedIn, (req: Request, res: Response, next: NextFunction): void => {
+    const username: string = req.session!.user.username;
     req.session!.destroy(err => {
         if (err) {
-            console.error(err);
+            logger.error(err);
             next();
         } else {
+            logger.info('logout: ' + username);
             res.clearCookie('session-cookie').redirect('/');
         }
     });
 });
 
-authRouter.delete('/unregister', middleware.isLoggedIn, async (req, res, next) => {
+authRouter.delete('/unregister', middleware.isLoggedIn, async (req: Request, res: Response, next: NextFunction) => {
     const { username, password } = req.body;
     try {
-        const user = await User.findOne({ username });
+        const user: Document | null = await User.findOne({ username });
         if (!user) {
             return res.status(401).json({
                 error: 'invalid username',
             });
         }
 
-        const valid = await bcrypt.compare(password, user.get('password'));
+        const valid: boolean = await bcrypt.compare(password, user.get('password'));
         if (!valid) {
             return res.status(401).json({
                 error: 'invalid password',
             });
         }
 
-        const updatedUser = {
+        const updatedUser: Document = {
             ...user.toJSON(),
             deactivated: true,
         };
-        const deleted = await User.findOneAndUpdate({ username, deactivated: false }, updatedUser, { new: true });
+
+        const deleted: Document | null = await User.findOneAndUpdate({ username, deactivated: false }, updatedUser, { new: true });
         if (deleted) {
             req.session!.destroy(err => {
                 if (err) {
-                    console.error(err);
+                    logger.error(err);
                     next();
                 } else {
+                    logger.info('unregister: ' + username);
                     res.clearCookie('session-cookie').status(204).end();
                 }
             });
@@ -125,7 +133,7 @@ authRouter.delete('/unregister', middleware.isLoggedIn, async (req, res, next) =
             res.status(400).end();
         }
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 });

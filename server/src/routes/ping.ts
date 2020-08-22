@@ -1,8 +1,8 @@
-import express from 'express';
+import express, { Request, Response, Router } from 'express';
 
-const pingRouter = express.Router();
+const pingRouter: Router = express.Router();
 
-pingRouter.get('/', (_req, res) => {
+pingRouter.get('/', (_req: Request, res: Response): void => {
     res.send('pong');
 });
 

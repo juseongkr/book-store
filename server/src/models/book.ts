@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 mongoose.set('useFindAndModify', false);
 
-const bookSchema = new mongoose.Schema({
+const bookSchema: mongoose.Schema<unknown> = new mongoose.Schema({
     isbn: {
         type: String,
         unique: true,
