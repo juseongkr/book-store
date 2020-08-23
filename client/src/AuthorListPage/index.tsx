@@ -52,7 +52,7 @@ const AuthorListPage: React.FC = (): JSX.Element => {
                     {
                         Object.values(authors).map((author: Author, id: number) => (
                             <Table.Row key={ id }>
-                                <Table.Cell><Link to={'/authors/' + author.ssn}>{ author.name }</Link></Table.Cell>
+                                <Table.Cell><Link to={ '/authors/' + author.ssn }>{ author.name }</Link></Table.Cell>
                                 <Table.Cell>{ author?.birth }</Table.Cell>
                                 <Table.Cell>{ author?.address }</Table.Cell>
                                 <Table.Cell><Icon name={ author.gender === 'other' ? 'genderless' : author.gender === 'male' ? 'mars' : 'venus'  }></Icon></Table.Cell>
@@ -62,7 +62,7 @@ const AuthorListPage: React.FC = (): JSX.Element => {
                 </Table.Body>
             </Table>
             <AddAuthorModal modalOpen={ modalOpen } onSubmit={ submitNewAuthor } onClose={ closeModal } errMsg={ error }/>
-            <Button color='teal' onClick={ () => openModal() }>Add new author</Button>
+            <Button color='teal' onClick={ openModal }>Add new author</Button>
         </div>
     );
 };

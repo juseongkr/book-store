@@ -31,7 +31,7 @@ export interface Book {
     title: string;
     published: string;
     author: string;
-    genres: string[];
+    genres: Array<string>;
     rating?: number;
     description?: string;
     uploader: string;
@@ -51,6 +51,10 @@ export interface UserInfo {
 
 export type AuthorInfo = Omit<Author, 'ssn'>;
 export type BookInfo = Omit<Book, 'isbn'>;
+
+export interface BookInput extends Omit<Book, 'genres'> {
+    genres: string;
+}
 
 export type State = {
     books: {
@@ -104,7 +108,7 @@ export interface NewUser extends User {
 }
 
 export type BookFormProps = {
-    onSubmit: (values: Book) => void;
+    onSubmit: (values: BookInput) => void;
     onClose: () => void;
     modalOpen: boolean;
     errMsg?: string | null;

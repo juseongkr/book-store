@@ -1,5 +1,5 @@
 import React from 'react';
-import { Book, BookFormProps } from '../types';
+import { BookFormProps, BookInput } from '../types';
 import { Formik, Form, Field } from 'formik';
 import { Grid, Button } from 'semantic-ui-react';
 import { TextField, NumberField } from '../Form';
@@ -13,11 +13,12 @@ const UpdateBookForm: React.FC<Props> = ({ onSubmit, onClose }: Props): JSX.Elem
     const [ { books }, ] = useStateValue();
     const { isbn } = useParams<{ isbn: string }>();
 
-    const initValue: Book = {
+    const initValue: BookInput = {
         ...books[isbn],
+        genres: books[isbn].genres.join(','),
     };
 
-    const checkForm = (values: Book) => {
+    const checkForm = (values: BookInput) => {
         const errFill = 'You must fill out form';
         const errInvalid = 'Invalid date format';
         const errors: {

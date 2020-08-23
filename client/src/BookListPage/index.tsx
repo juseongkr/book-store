@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Container, Table, Button } from "semantic-ui-react";
 import { useStateValue } from '../state/state';
-import { Book } from '../types';
+import { Book, BookInput } from '../types';
 import AddBookModal from '../AddBookModal';
 import RatingBar from '../RatingBar';
 import { baseUrl } from '../constants';
@@ -24,12 +24,12 @@ const BookListPage: React.FC = (): JSX.Element => {
 
     const genISBN = (): string => Math.floor(1000000000 + Math.random() * 9000000000).toString();
 
-    const submitNewBook = async (values: Book): Promise<void> => {
+    const submitNewBook = async (values: BookInput): Promise<void> => {
         try {
             const book: Book = {
                 ...values,
                 isbn: genISBN(),
-                genres: values.genres.toString().replace(/ /g, '').split(','),
+                genres: [...new Set(values.genres.trim().replace(/ /g, '').split(',').filter((g: string) => g !== ''))],
             };
             const { data: newBook } = await axios.post<Book>(`${baseUrl}/books`, book);
             dispatch({ type: 'ADD_BOOK', payload: newBook });
@@ -61,18 +61,18 @@ const BookListPage: React.FC = (): JSX.Element => {
                     {
                         Object.values(books).map((book: Book, id: number) => (
                             <Table.Row key={ id }>
-                                <Table.Cell><Link to={'/books/' + book.isbn }>{ book.title }</Link></Table.Cell>
+                                <Table.Cell><Link to={ '/books/' + book.isbn }>{ book.title }</Link></Table.Cell>
                                 <Table.Cell>{ book.author }</Table.Cell>
                                 <Table.Cell>{ book.published }</Table.Cell>
                                 <Table.Cell>{ book.genres.join(', ') }</Table.Cell>
-                                <Table.Cell><RatingBar rating={ book.rating || 0 }/></Table.Cell>
+                                <Table.Cell><RatingBar rating={ book.rating ?? 0 }/></Table.Cell>
                             </Table.Row>
                         ))
                     }
                 </Table.Body>
             </Table>
             <AddBookModal modalOpen={ modalOpen } onSubmit={ submitNewBook } onClose={ closeModal } errMsg={ error }/>
-            <Button color='teal' onClick={ () => openModal() }>Add new book</Button>
+            <Button color='teal' onClick={ openModal }>Add new book</Button>
         </div>
     );
 };

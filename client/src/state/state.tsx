@@ -8,9 +8,9 @@ const initState: State = {
     actived: ActiveItem.Home,
 };
 
-export const StateContext = React.createContext<[State, React.Dispatch<Action>]>([
+export const StateContext: React.Context<[State, React.Dispatch<Action>]> = React.createContext<[State, React.Dispatch<Action>]>([
     initState,
-    (): State => initState
+    (): State => initState,
 ]);
 
 export const StateProvider: React.FC<StateProviderProps> = ({ reducer, children }: StateProviderProps): JSX.Element => {

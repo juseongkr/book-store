@@ -50,7 +50,6 @@ const UpdateAuthorForm: React.FC<Props> = ({ onSubmit, onClose }: Props): JSX.El
                     return (
                         <Form className='form ui'>
                             <Field label='Author Name' placeholder='Name' name='name' component={ TextField }/>
-                            <Field label='SSN' placeholder='Social Security Number' name='ssn' component={ TextField }/>
                             <SelectField label='Gender' name='gender' options={ genderSelections } />
                             <Field label='Birth' placeholder='YYYY-MM-DD' name='birth' component= { TextField }/>
                             <Field label='Address' placeholder='Address (optional)' name='address' component= { TextField }/>

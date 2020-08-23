@@ -44,7 +44,7 @@ const bookSchema: mongoose.Schema<unknown> = new mongoose.Schema({
 });
 
 bookSchema.set('toJSON', {
-    transform: (_doc, obj) => {
+    transform: (_doc, obj): void => {
         obj.id = obj._id.toString();
         delete obj._id;
         delete obj.__v;

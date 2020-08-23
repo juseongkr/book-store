@@ -18,7 +18,7 @@ export interface Book {
     title: string;
     published: string;
     author: string;
-    genres: string[];
+    genres: Array<string>;
     rating?: number;
     description?: string;
     uploader: string;

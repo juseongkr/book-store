@@ -25,11 +25,8 @@ const AuthorInfoPage: React.FC = (): JSX.Element => {
 
     const submitUpdateAuthor = async (values: Author): Promise<void> => {
         try {
-            const updatedAuthor: Author = {
-                ...values,
-            };
-            await axios.put(`${baseUrl}/authors/${ssn}`, updatedAuthor);
-            dispatch({ type: 'ADD_AUTHOR', payload: updatedAuthor });
+            await axios.put(`${baseUrl}/authors/${ssn}`, values);
+            dispatch({ type: 'ADD_AUTHOR', payload: values });
             closeModal();
         } catch (err) {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

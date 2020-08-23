@@ -26,7 +26,6 @@ const InfoPage: React.FC = (): JSX.Element => {
                 password: values.password,
             };
             await axios.delete<User>(`${baseUrl}/auth/unregister`, { data: deleteUser });
-            window.localStorage.removeItem('loggedUser');
             dispatch({ type: 'SET_USER', payload: { username: '', id: '' } });
             dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Home });
             history.push('/');

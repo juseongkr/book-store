@@ -38,7 +38,6 @@ const MenuBar: React.FC = (): JSX.Element => {
   const userLogout = async (): Promise<void> => {
     try {
       await axios.post<User>(`${baseUrl}/auth/logout`);
-      window.localStorage.removeItem('loggedUser');
       dispatch({ type: 'SET_USER', payload: { username: '', id: '' } });
       dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Home });
     } catch (err) {
@@ -54,7 +53,7 @@ const MenuBar: React.FC = (): JSX.Element => {
       {
         userInfo?.username ?
         <Menu.Menu position='right'>
-          <Menu.Item as={ Link } to='/info' color='teal' name='info' active={ actived === 'info' } onClick={ () => dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Info }) } onMouseOver={ () => InfoPage.preload() }>{ userInfo.username }</Menu.Item>
+          <Menu.Item as={ Link } to='/info' color='teal' name='info' active={ actived === 'info' } onClick={ () => dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Info }) } onMouseOver={ () => InfoPage.preload() }>{ userInfo.username.split('@')[0] }</Menu.Item>
           <Menu.Item as={ Link } to='/' color='teal' name='logout' onClick={ userLogout }>Logout</Menu.Item>
         </Menu.Menu> : 
         <Menu.Item as={ Link } to='/login' color='teal' name='login' position='right' active={ actived === 'login' } onClick={ () => dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Login }) } onMouseOver={ () => LoginForm.preload() }>Login</Menu.Item>

@@ -53,7 +53,7 @@ export const SelectField: React.FC<SelectProps> = ({ label, name, options }: Sel
                 {
                     options.map((option, id) => (
                         <option key={ id } value={ option.value }>
-                            { option.label || option.value }
+                            { option.label ?? option.value }
                         </option>
                     ))
                 }

@@ -5,7 +5,7 @@ import { Container, Divider, Button } from 'semantic-ui-react';
 import { useStateValue } from '../state';
 import { baseUrl } from '../constants';
 import RatingBar from '../RatingBar';
-import { Book } from '../types';
+import { Book, BookInput } from '../types';
 import UpdateBookModal from '../UpdateBookModal';
 
 const BookInfoPage: React.FC = (): JSX.Element => {
@@ -24,10 +24,11 @@ const BookInfoPage: React.FC = (): JSX.Element => {
         setError('');
     };
     
-    const submitUpdateBook = async (values: Book): Promise<void> => {
+    const submitUpdateBook = async (values: BookInput): Promise<void> => {
         try {
             const updatedBook: Book = {
                 ...values,
+                genres: [...new Set(values.genres.trim().replace(/ /g, '').split(',').filter((g: string) => g !== ''))],
             };
             await axios.put<Book>(`${baseUrl}/books/${isbn}`, updatedBook);
             dispatch({ type: 'ADD_BOOK', payload: updatedBook });
@@ -54,7 +55,7 @@ const BookInfoPage: React.FC = (): JSX.Element => {
     return (
         <div className='App'>
             <Container textAlign='left'>
-                <h3>{ book?.title }<RatingBar rating={ book?.rating || 0 }/></h3>
+                <h3>{ book?.title }<RatingBar rating={ book?.rating ?? 0 }/></h3>
                 <Divider/>
                 <div>Author: { book?.author }</div>
                 <div>Published: { book?.published }</div>
