@@ -4,7 +4,7 @@ import { Menu } from "semantic-ui-react";
 import { Link } from 'react-router-dom';
 import { useStateValue } from '../state/state';
 import { baseUrl } from '../constants';
-import { ActiveItem, User } from '../types';
+import { ActiveItem, User, UserInfo } from '../types';
 import loadable from '@loadable/component';
 import Loading from '../LoadingPage';
 
@@ -34,6 +34,17 @@ export const InfoPage = loadable(() => import('../InfoPage'), {
 
 const MenuBar: React.FC = (): JSX.Element => {
   const [ { userInfo, actived }, dispatch ] = useStateValue();
+
+  React.useEffect(() => {
+    void (async() => {
+      try {
+        const { data: authUser } = await axios.get<UserInfo>(`${baseUrl}/auth/check`);
+        dispatch({ type: 'SET_USER', payload: authUser });
+      } catch (err) {
+        dispatch({ type: 'SET_USER', payload: { username: '', id: '' } });
+      }
+    })();
+  }, [dispatch]);
   
   const userLogout = async (): Promise<void> => {
     try {

@@ -5,7 +5,7 @@ import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { Container, Divider } from "semantic-ui-react";
 import { Helmet } from 'react-helmet-async';
 
-import { Book, Author, UserInfo } from './types';
+import { Book, Author } from './types';
 import { useStateValue } from './state/state';
 import { baseUrl } from './constants';
 import MainPage from './MainPage';
@@ -20,10 +20,8 @@ const App: React.FC = (): JSX.Element => {
       try {
         const { data: bookList } = await axios.get<Book[]>(`${baseUrl}/books`);
         const { data: authorList } = await axios.get<Author[]>(`${baseUrl}/authors`);
-        const { data: authUser } = await axios.get<UserInfo>(`${baseUrl}/auth/check`);
         dispatch({ type: 'SET_BOOK_LIST', payload: bookList });
         dispatch({ type: 'SET_AUTHOR_LIST', payload: authorList });
-        dispatch({ type: 'SET_USER', payload: authUser });
       } catch (err) {
         console.log(err);
       }
