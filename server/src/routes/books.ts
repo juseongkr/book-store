@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction, Router } from 'express';
 import { Document } from 'mongoose';
 import Book from '../models/book';
+import User from '../models/user';
 import middleware from '../utils/middlewares';
 import logger from '../utils/logger';
 
@@ -46,6 +47,9 @@ booksRouter.post('/', middleware.isLoggedIn, async (req: Request, res: Response,
         });
         
         const savedBook: Document = await book.save();
+        await User.findByIdAndUpdate(session!.user.id, {
+            $addToSet: { books: savedBook }
+        }, { new: true });
         logger.info('book create: ' + body.isbn);
         res.json(savedBook);
     } catch (err) {
@@ -59,6 +63,9 @@ booksRouter.delete('/:isbn', middleware.isLoggedIn, async (req: Request, res: Re
     try {
         const deleted: Document | null = await Book.findOneAndDelete({ uploader: session!.user.id, isbn: req.params.isbn });
         if (deleted) {
+            await User.findByIdAndUpdate(session!.user.id, {
+                $pull: { books: deleted!.get('id') }
+            });
             logger.info('book delete: ' + req.params.isbn);
             res.status(204).end();
         } else {
