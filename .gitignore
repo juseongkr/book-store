@@ -208,7 +208,7 @@ tags
 [._]*.un~
 
 # Cypress
-cypress/screenshots
-cypress/videos
+client/cypress/screenshots/
+client/cypress/videos/
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,react,vim,dotenv,node,sublimetext

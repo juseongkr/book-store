@@ -9,7 +9,7 @@ const errorHandler = (err: any, _req: Request, res: Response, next: NextFunction
     if (err.name === 'CaseError' && err.kind === 'ObjectId') {
         res.status(400).send({ error: 'malformatted id' });
     } else if (err.name === 'ValidationError') {
-        res.status(400).end({ error: err.message });
+        res.status(400).send({ error: err.message });
     } else {
         logger.error(err);
         next(err);

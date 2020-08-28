@@ -42,10 +42,17 @@ authorsRouter.post('/', middleware.isLoggedIn, async (req: Request, res: Respons
             address: body?.address,
             uploader: session!.user.id,
         });
-        
-        const savedAuthor: Document = await author.save();
-        logger.info('author create: ' + body.ssn);
-        res.json(savedAuthor);
+
+        const duplicated: Document | null = await Author.findOne({ ssn: body.ssn });
+        if (duplicated) {
+            res.status(409).send({
+                error: 'ssn conflict',
+            });
+        } else {
+            const savedAuthor: Document = await author.save();
+            logger.info('author create: ' + body.ssn);
+            res.json(savedAuthor);
+        }
     } catch (err) {
         logger.error(err);
         next(err);
