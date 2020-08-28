@@ -49,12 +49,37 @@ export function logout(): void {
     cy.contains('Login');
 }
 
+export function bookTyping(book: Book): void {
+    // not implemented yet
+
+}
+
 export function createBook(book: Book): void {
     // not implemented yet
 }
 
+export function authorTyping(author: Author): void {
+    const { name, ssn, gender, birth, address } = author;
+    cy.get(':nth-child(1) > input').type(name);
+    cy.get(':nth-child(2) > input').type(ssn);
+    cy.get('.form > :nth-child(3) > .ui').select(gender);
+    if (birth) {
+        cy.get(':nth-child(4) > input').type(birth);
+    }
+    if (address) {
+        cy.get(':nth-child(5) > input').type(address);
+    }
+}
+
 export function createAuthor(author: Author): void {
-    // not implemented yet
+    cy.visit(localUrl);
+    cy.contains('Author').click();
+    cy.contains('Add new author').click();
+
+    authorTyping(author);
+
+    cy.contains('Save').click();
+    cy.contains(author.name);
 }
    
 Cypress.Commands.add('registerTyping', registerTyping);
@@ -62,7 +87,9 @@ Cypress.Commands.add('register', register);
 Cypress.Commands.add('loginTyping', loginTyping);
 Cypress.Commands.add('login', login);
 Cypress.Commands.add('logout', logout);
+Cypress.Commands.add('bookTyping', bookTyping);
 Cypress.Commands.add('createBook', createBook);
+Cypress.Commands.add('authorTyping', authorTyping);
 Cypress.Commands.add('createAuthor', createAuthor);
    
 declare global {
@@ -73,7 +100,9 @@ declare global {
             loginTyping: typeof loginTyping
             login: typeof login
             logout: typeof logout
+            bookTyping: typeof bookTyping
             createBook: typeof createBook
+            authorTyping: typeof authorTyping
             createAuthor: typeof createAuthor
         }
     }

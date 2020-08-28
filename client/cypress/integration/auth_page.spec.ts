@@ -1,10 +1,6 @@
-import { User } from '../../src/types';
 import { localUrl } from '../../src/constants';
-
-const user: User = {
-    username: 'cypress_tester@email.com',
-    password: 'cypress1234',
-};
+import { User } from '../../src/types';
+import { dummy_user as user } from '../data';
 
 describe('Auth page testing', () => {
     beforeEach(() => {
@@ -95,6 +91,16 @@ describe('Auth page testing', () => {
     });
 
     describe('Unregister page testing', () => {
-        // not implemented yet
+        beforeEach(() => {
+            cy.login(user);
+        });
+
+        it('Unregister user', () => {
+            cy.get('[href="#/info"]').click();
+            cy.get('.equal > :nth-child(1) > input').type(user.password);
+            cy.get('.equal > :nth-child(2) > input').type(user.password);
+
+            cy.contains('Delete').click();
+        });
     });
 });
