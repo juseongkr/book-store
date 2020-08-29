@@ -63,7 +63,7 @@ describe('AUTHOR API TEST', () => {
 
         await api.put(`/api/authors/${updatedAuthor.ssn}`)
             .send(updatedAuthor)
-            .expect(204);
+            .expect(200);
     });
 
     test('DELETE: /api/authors (Check if the author has been deleted)', async () => {

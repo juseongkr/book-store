@@ -18,7 +18,7 @@ import authRouter from './routes/auth';
 import logger from './utils/logger';
 
 if (MONGODB_URI === 'undefined' || REDIS_HOST === 'undefined') {
-    logger.info('PATH ERROR', MONGODB_URI, REDIS_HOST);
+    logger.error('PATH ERROR', MONGODB_URI, REDIS_HOST);
     process.exit(0);
 }
 
@@ -55,7 +55,10 @@ app.use(session({
         secure: false, // true: https only
     },
     name: 'session-cookie',
-    store: new RedisStore({ client: redisClient }),
+    store: new RedisStore({
+        client: redisClient,
+        logErrors: true,
+    }),
 }));
 
 app.use('/api/ping', pingRouter);

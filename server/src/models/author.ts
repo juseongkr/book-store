@@ -28,6 +28,7 @@ const authorSchema: mongoose.Schema<unknown> = new mongoose.Schema({
     uploader: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+        required: true,
     }
 }, {
     timestamps: true,

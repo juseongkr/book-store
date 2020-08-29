@@ -4,6 +4,7 @@ import Book from '../models/book';
 import User from '../models/user';
 import middleware from '../utils/middlewares';
 import logger from '../utils/logger';
+import { bookValidation, validate } from '../utils/validator';
 
 const booksRouter: Router = express.Router();
 
@@ -31,7 +32,9 @@ booksRouter.get('/:isbn', async (req: Request, res: Response, next: NextFunction
     }
 });
 
-booksRouter.post('/', middleware.isLoggedIn, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+booksRouter.post('/', 
+    middleware.isLoggedIn, validate(bookValidation),
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const body: any = req.body;
     const session: Express.Session | undefined = req.session;
     try {
@@ -77,7 +80,9 @@ booksRouter.delete('/:isbn', middleware.isLoggedIn, async (req: Request, res: Re
     }
 });
 
-booksRouter.put('/:isbn', middleware.isLoggedIn, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+booksRouter.put('/:isbn',
+    middleware.isLoggedIn, validate(bookValidation),
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const body: any = req.body;
     const session: Express.Session | undefined = req.session;
     try {
@@ -87,7 +92,7 @@ booksRouter.put('/:isbn', middleware.isLoggedIn, async (req: Request, res: Respo
         const updated: Document | null = await Book.findOneAndUpdate({ uploader: session!.user.id, isbn: req.params.isbn }, book, { new: true });
         if (updated) {
             logger.info('book update: ' + req.params.isbn);
-            res.status(204).end();
+            res.status(200).end();
         } else {
             res.status(400).end();
         }

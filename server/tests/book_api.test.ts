@@ -66,7 +66,7 @@ describe('BOOK API TEST', () => {
 
         await api.put(`/api/books/${updatedBook.isbn}`)
             .send(updatedBook)
-            .expect(204);
+            .expect(200);
     });
 
     test('DELETE: /api/books (Delete the created book)', async () => {

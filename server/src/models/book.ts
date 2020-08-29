@@ -5,6 +5,7 @@ mongoose.set('useFindAndModify', false);
 const bookSchema: mongoose.Schema<unknown> = new mongoose.Schema({
     isbn: {
         type: String,
+        minlength: 4,
         unique: true,
     },
     title: {
@@ -38,6 +39,7 @@ const bookSchema: mongoose.Schema<unknown> = new mongoose.Schema({
     uploader: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+        required: true,
     }
 }, {
     timestamps: true,

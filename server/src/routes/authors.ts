@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 import Author from '../models/author';
 import middleware from '../utils/middlewares';
 import logger from '../utils/logger';
+import { authorValidation, validate } from '../utils/validator';
 
 const authorsRouter: Router = express.Router();
 
@@ -30,25 +31,26 @@ authorsRouter.get('/:ssn', async (req: Request, res: Response, next: NextFunctio
     }
 });
 
-authorsRouter.post('/', middleware.isLoggedIn, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+authorsRouter.post('/',
+    middleware.isLoggedIn, validate(authorValidation),
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const body: any = req.body;
     const session: Express.Session | undefined = req.session;
     try {
-        const author: Document = new Author({
-            ssn: body.ssn,
-            name: body.name,
-            gender: body.gender,
-            birth: body?.birth,
-            address: body?.address,
-            uploader: session!.user.id,
-        });
-
         const duplicated: Document | null = await Author.findOne({ ssn: body.ssn });
         if (duplicated) {
             res.status(409).send({
                 error: 'ssn conflict',
             });
         } else {
+            const author: Document = new Author({
+                ssn: body.ssn,
+                name: body.name,
+                gender: body.gender,
+                birth: body?.birth,
+                address: body?.address,
+                uploader: session!.user.id,
+            });
             const savedAuthor: Document = await author.save();
             logger.info('author create: ' + body.ssn);
             res.json(savedAuthor);
@@ -75,7 +77,9 @@ authorsRouter.delete('/:ssn', middleware.isLoggedIn, async (req: Request, res: R
     }
 });
 
-authorsRouter.put('/:ssn', middleware.isLoggedIn, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+authorsRouter.put('/:ssn',
+    middleware.isLoggedIn, validate(authorValidation),
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const body: any = req.body;
     const session: Express.Session | undefined = req.session;
     try {
@@ -85,7 +89,7 @@ authorsRouter.put('/:ssn', middleware.isLoggedIn, async (req: Request, res: Resp
         const updated: Document | null = await Author.findOneAndUpdate({ uploader: session!.user.id, ssn: req.params.ssn }, author, { new: true });
         if (updated) {
             logger.info('author update: ' + req.params.ssn);
-            res.status(204).end();
+            res.status(200).end();
         } else {
             res.status(400).end();
         }
