@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { body, validationResult, ValidationChain, Result, ValidationError } from 'express-validator';
 import { Gender } from '../types';
-import { dateRegex } from './config';
 
 export const userValidation = (): ValidationChain[] => {
     return [
@@ -14,7 +13,7 @@ export const userValidation = (): ValidationChain[] => {
 export const bookValidation: ValidationChain[] = [
     body('isbn').trim().isLength({ min: 4 }),
     body('title').trim().isLength({ min: 1 }),
-    body('published').trim().matches(dateRegex),
+    body('published').isISO8601(),
     body('author').notEmpty(),
     body('genres').notEmpty(),
     body('rating').optional().isNumeric().isLength({ min: 0, max: 5 }),
@@ -24,7 +23,7 @@ export const bookValidation: ValidationChain[] = [
 export const authorValidation: ValidationChain[] = [
     body('ssn').trim().isLength({ min: 4 }),
     body('name').trim().isLength({ min: 4 }),
-    body('birth').trim().matches(dateRegex),
+    body('birth').isISO8601(),
     body('address').notEmpty(),
     body('gender').isIn([Gender.Male, Gender.Female, Gender.Other]),
 ];
