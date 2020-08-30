@@ -4,6 +4,8 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
+import rateLimit from 'express-rate-limit';
+
 import connectRedis from 'connect-redis';
 import redis from 'redis';
 import hpp from 'hpp';
@@ -37,11 +39,17 @@ const redisClient: redis.RedisClient = redis.createClient({
     password: REDIS_PASSWORD,
 });
 
+const limiter: rateLimit.RateLimit = rateLimit({
+    windowMs: 1000 * 60 * 5,
+    max: 100,
+});
+
 const app: Express = express();
 app.use(morgan('combined'));
 app.use(cors());
 app.use(helmet());
 app.use(hpp());
+app.use(limiter);
 app.use(express.static('build'));
 app.use(express.json());
 app.use(cookieParser(SECRET_KEY));
