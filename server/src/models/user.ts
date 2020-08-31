@@ -29,6 +29,14 @@ const userSchema: mongoose.Schema<unknown> = new mongoose.Schema({
         required: true,
         default: false,
     },
+    ip_address: {
+        type: String,
+        required: false,
+    },
+    last_login: {
+        type: Date,
+        required: false,
+    },
 }, {
     timestamps: true,
 });

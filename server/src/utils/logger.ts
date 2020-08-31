@@ -5,12 +5,14 @@ import path from 'path';
 
 const logPath: string = path.join(appRoot.path, '/logs');
 const logForm: winston.Logform.Format = format.printf(({ timestamp, level, message }): string => {
-    return `${timestamp} ${level}: ${message}`;
+    return `${timestamp} ${level}: ${message} `;
 });
 
 const logger: winston.Logger = createLogger({
     level: 'info',
     format: format.combine(
+        format.colorize(),
+        format.splat(),
         format.timestamp({
             format: 'YYYY-MM-DD HH:mm:ss',
         }),
@@ -43,6 +45,7 @@ const logger: winston.Logger = createLogger({
 });
 
 logger.add(new transports.Console({
+    level: 'info',
     format: format.combine(format.simple(), format.colorize()),
 }));
 

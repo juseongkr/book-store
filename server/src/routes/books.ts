@@ -53,7 +53,6 @@ booksRouter.post('/',
         await User.findByIdAndUpdate(session!.user.id, {
             $addToSet: { books: savedBook }
         }, { new: true });
-        logger.info('book create: ' + body.isbn);
         res.json(savedBook);
     } catch (err) {
         logger.error(err);
@@ -69,7 +68,6 @@ booksRouter.delete('/:isbn', middleware.isLoggedIn, async (req: Request, res: Re
             await User.findByIdAndUpdate(session!.user.id, {
                 $pull: { books: deleted!.get('id') }
             });
-            logger.info('book delete: ' + req.params.isbn);
             res.status(204).end();
         } else {
             res.status(400).end();
@@ -91,7 +89,6 @@ booksRouter.put('/:isbn',
         };
         const updated: Document | null = await Book.findOneAndUpdate({ uploader: session!.user.id, isbn: req.params.isbn }, book, { new: true });
         if (updated) {
-            logger.info('book update: ' + req.params.isbn);
             res.status(200).end();
         } else {
             res.status(400).end();

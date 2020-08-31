@@ -39,7 +39,6 @@ authRouter.post('/register', middleware.isNotLoggedIn, async (req: Request, res:
             name,
         }).save();
 
-        logger.info('register: ' + username);
         res.json({ username, id: savedUser.get('id'), name });
     } catch (err) {
         logger.error(err);
@@ -70,12 +69,20 @@ authRouter.post('/login', middleware.isNotLoggedIn, async (req: Request, res: Re
             });
         }
 
-        req.session!.user = {
-            username: username,
-            id: user.get('id'),
+        const updatedUser: Document = {
+            ...user.toJSON(),
+            ip_address: req.ip,
+            last_login: new Date().toISOString(),
         };
 
-        logger.info('login: ' + username);
+        const updated: Document | null = await User.findOneAndUpdate({ username, deactivated: false }, updatedUser, { new: true });
+        if (updated) {
+            req.session!.user = {
+                username: username,
+                id: user.get('id'),
+            };
+        }
+
         res.json({ username, id: user.get('id') });
     } catch (err) {
         logger.error(err);
@@ -84,13 +91,11 @@ authRouter.post('/login', middleware.isNotLoggedIn, async (req: Request, res: Re
 });
 
 authRouter.post('/logout', middleware.isLoggedIn, (req: Request, res: Response, next: NextFunction): void => {
-    const username: string = req.session!.user.username;
     req.session!.destroy(err => {
         if (err) {
             logger.error(err);
             next();
         } else {
-            logger.info('logout: ' + username);
             res.clearCookie('session-cookie').redirect('/');
         }
     });
@@ -125,7 +130,6 @@ authRouter.delete('/unregister', middleware.isLoggedIn, async (req: Request, res
                     logger.error(err);
                     next();
                 } else {
-                    logger.info('unregister: ' + username);
                     res.clearCookie('session-cookie').status(204).end();
                 }
             });

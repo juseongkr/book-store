@@ -41,11 +41,18 @@ const redisClient: redis.RedisClient = redis.createClient({
 
 const limiter: rateLimit.RateLimit = rateLimit({
     windowMs: 1000 * 60 * 5,
-    max: 100,
+    max: 300,
 });
 
 const app: Express = express();
-app.use(morgan('combined'));
+app.set('trust proxy', true);
+app.use(morgan('combined', {
+    stream: {
+        write: (text: string): void => {
+            logger.info(text);
+        }
+    },
+}));
 app.use(cors());
 app.use(helmet());
 app.use(hpp());

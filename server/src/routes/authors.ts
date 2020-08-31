@@ -52,7 +52,6 @@ authorsRouter.post('/',
                 uploader: session!.user.id,
             });
             const savedAuthor: Document = await author.save();
-            logger.info('author create: ' + body.ssn);
             res.json(savedAuthor);
         }
     } catch (err) {
@@ -66,7 +65,6 @@ authorsRouter.delete('/:ssn', middleware.isLoggedIn, async (req: Request, res: R
     try {
         const deleted: Document | null = await Author.findOneAndDelete({ uploader: session!.user.id, ssn: req.params.ssn });
         if (deleted) {
-            logger.info('author delete: ' + req.params.ssn);
             res.status(204).end();
         } else {
             res.status(400).end();
@@ -88,7 +86,6 @@ authorsRouter.put('/:ssn',
         };
         const updated: Document | null = await Author.findOneAndUpdate({ uploader: session!.user.id, ssn: req.params.ssn }, author, { new: true });
         if (updated) {
-            logger.info('author update: ' + req.params.ssn);
             res.status(200).end();
         } else {
             res.status(400).end();
