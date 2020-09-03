@@ -29,7 +29,7 @@ const BookListPage: React.FC = (): JSX.Element => {
             const book: Book = {
                 ...values,
                 isbn: genISBN(),
-                genres: [...new Set(values.genres.trim().replace(/ /g, '').split(',').filter((g: string) => g !== ''))],
+                genres: [...new Set(values.genres.trim().toLowerCase().replace(/ /g, '').split(',').filter((g: string) => g !== ''))],
             };
             const { data: newBook } = await axios.post<Book>(`${baseUrl}/books`, book);
             dispatch({ type: 'ADD_BOOK', payload: newBook });

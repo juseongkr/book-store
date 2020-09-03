@@ -28,7 +28,7 @@ const BookInfoPage: React.FC = (): JSX.Element => {
         try {
             const updatedBook: Book = {
                 ...values,
-                genres: [...new Set(values.genres.trim().replace(/ /g, '').split(',').filter((g: string) => g !== ''))],
+                genres: [...new Set(values.genres.trim().toLowerCase().replace(/ /g, '').split(',').filter((g: string) => g !== ''))],
             };
             await axios.put<Book>(`${baseUrl}/books/${isbn}`, updatedBook);
             dispatch({ type: 'ADD_BOOK', payload: updatedBook });
