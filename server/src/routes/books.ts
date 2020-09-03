@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction, Router } from 'express';
-import { Document } from 'mongoose';
+import { Document, MongooseFilterQuery } from 'mongoose';
 import Book from '../models/book';
 import User from '../models/user';
 import middleware from '../utils/middlewares';
@@ -8,9 +8,24 @@ import { bookValidation, validate } from '../utils/validator';
 
 const booksRouter: Router = express.Router();
 
-booksRouter.get('/', async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
+booksRouter.get('/', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const { search, genre } = req.query;
+    const filterQuery: MongooseFilterQuery<Pick<Document, "_id">> = {};
+    if (search) {
+        filterQuery.title = {
+            $regex: search,
+            $options: 'i'
+        }
+    }
+    if (genre) {
+        filterQuery.genres = {
+            $in: genre.toString().toLowerCase().split(','),
+        }
+    }
+
     try {
-        const books: Array<Document> = await Book.find({}).sort({ createdAt: -1 });
+        const books: Array<Document> = await Book.find(filterQuery)
+                                                 .sort({ createdAt: -1 });
         res.json(books);
     } catch (err) {
         logger.error(err);

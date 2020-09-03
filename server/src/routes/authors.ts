@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction, Router } from 'express';
-import { Document } from 'mongoose';
+import { Document, MongooseFilterQuery } from 'mongoose';
 import Author from '../models/author';
 import middleware from '../utils/middlewares';
 import logger from '../utils/logger';
@@ -7,9 +7,19 @@ import { authorValidation, validate } from '../utils/validator';
 
 const authorsRouter: Router = express.Router();
 
-authorsRouter.get('/', async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
+authorsRouter.get('/', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const { search } = req.query;
+    const filterQuery: MongooseFilterQuery<Pick<Document, "_id">> = {};
+    if (search) {
+        filterQuery.name = {
+            $regex: search,
+            $options: 'i'
+        }
+    }
+
     try {
-        const authors: Array<Document> = await Author.find({}).sort({ createdAt: -1 });
+        const authors: Array<Document> = await Author.find(filterQuery)
+                                                     .sort({ createdAt: -1 });
         res.json(authors);
     } catch (err) {
         logger.error(err);
