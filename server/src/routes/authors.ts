@@ -8,7 +8,7 @@ import { authorValidation, validate } from '../utils/validator';
 const authorsRouter: Router = express.Router();
 
 authorsRouter.get('/', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const { search } = req.query;
+    const { search, page } = req.query;
     const filterQuery: MongooseFilterQuery<Pick<Document, "_id">> = {};
     if (search) {
         filterQuery.name = {
@@ -19,7 +19,8 @@ authorsRouter.get('/', async (req: Request, res: Response, next: NextFunction): 
 
     try {
         const authors: Array<Document> = await Author.find(filterQuery)
-                                                     .sort({ createdAt: -1 });
+                                                     .sort({ createdAt: -1 })
+                                                     .limit(Number(page) ?? 0);
         res.json(authors);
     } catch (err) {
         logger.error(err);

@@ -9,7 +9,7 @@ import { bookValidation, validate } from '../utils/validator';
 const booksRouter: Router = express.Router();
 
 booksRouter.get('/', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const { search, genre } = req.query;
+    const { search, genre, page } = req.query;
     const filterQuery: MongooseFilterQuery<Pick<Document, "_id">> = {};
     if (search) {
         filterQuery.title = {
@@ -25,7 +25,8 @@ booksRouter.get('/', async (req: Request, res: Response, next: NextFunction): Pr
 
     try {
         const books: Array<Document> = await Book.find(filterQuery)
-                                                 .sort({ createdAt: -1 });
+                                                 .sort({ createdAt: -1 })
+                                                 .limit(Number(page) ?? 0);
         res.json(books);
     } catch (err) {
         logger.error(err);
