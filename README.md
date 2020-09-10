@@ -1,5 +1,5 @@
 # Book store
-> Simple full-stack project using typescript
+> First fullstack web project with Express, React. Powered by TypeScript
 
 <img width="800" alt="img2" src="https://user-images.githubusercontent.com/10775915/90505751-1d377200-e18e-11ea-816e-735589849995.png"></img>
 <img width="800" alt="img" src="https://user-images.githubusercontent.com/10775915/89705010-6c162800-d994-11ea-977d-482480f3529e.png"></img>
@@ -71,6 +71,9 @@ Frontend test uses a cypress to check the front page action. You need a local se
 ```shellscript
 npm run cypress:run
 ```
+```shellscript
+npm run cypress:open
+```
 
 ### <a id="test-backend" style="color: black;">Test Backend</a>
 Backend server test uses a jest to check the backend server API.
@@ -82,10 +85,14 @@ npm run test
 ```shellscript
 bash ./run.sh
 ```
+```shellscript
+npm run start:prod
+```
 
 ----
 
 ### Todo List
 - [ ] Create user info page
+- [ ] Create genre list page
 - [ ] Update list page
 - [ ] Server Side Rendering
