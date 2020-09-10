@@ -1,4 +1,4 @@
-import { User } from '../src/types';
+import { User, Book } from '../src/types';
 import { Author, Gender } from "../src/types";
 
 export const tester_user: User = {
@@ -17,5 +17,16 @@ export const dummy_author: Author = {
     birth: '2020-01-01',
     address: 'undefined',
     gender: Gender.Other,
+    uploader: '',
+};
+
+export const dummy_book: Book = {
+    isbn: '000000000',
+    title: 'created by jest code',
+    published: '2020-01-01',
+    author: 'jest',
+    genres: ['sample1', 'sample2'],
+    rating: 1,
+    description: 'no comment',
     uploader: '',
 };

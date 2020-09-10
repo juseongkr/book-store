@@ -23,6 +23,7 @@ describe('Author page testing', () => {
             cy.authorTyping(author);
 
             cy.contains('Save').click();
+            cy.wait(3000);
             cy.contains('ssn conflict');
         });
 
@@ -49,6 +50,7 @@ describe('Author page testing', () => {
             cy.get(':nth-child(1) > input').clear().type(newName);
 
             cy.contains('Save').click();
+            cy.contains(newName);
         });
 
         it('Update author gender', () => {
@@ -56,6 +58,7 @@ describe('Author page testing', () => {
             cy.contains('Update').click();
             cy.get('.form > :nth-child(2) > .ui').select(Gender.Female);
 
+            cy.wait(1000);
             cy.contains('Save').click();
         });
 

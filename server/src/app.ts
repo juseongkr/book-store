@@ -41,7 +41,7 @@ const redisClient: redis.RedisClient = redis.createClient({
 
 const limiter: rateLimit.RateLimit = rateLimit({
     windowMs: 1000 * 60 * 5,
-    max: 300,
+    max: 500,
 });
 
 const app: Express = express();

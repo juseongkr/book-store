@@ -50,16 +50,34 @@ export function logout(): void {
 }
 
 export function bookTyping(book: Book): void {
-    // not implemented yet
-
+    const { title, published, author, genres, rating, description } = book;
+    
+    cy.get(':nth-child(1) > input').type(title);
+    cy.get(':nth-child(2) > input').type(published);
+    cy.get(':nth-child(3) > input').type(author);
+    cy.get(':nth-child(4) > input').type(genres.join(', '));
+    if (description) {
+        cy.get(':nth-child(5) > input').type(description);
+    }
+    if (rating) {
+        cy.get(':nth-child(6) > input').type(rating.toString());
+    }
 }
 
 export function createBook(book: Book): void {
-    // not implemented yet
+    cy.visit(localUrl);
+    cy.contains('Book').click();
+    cy.contains('Add new book').click();
+
+    bookTyping(book);
+
+    cy.contains('Save').click();
+    cy.contains(book.title);
 }
 
 export function authorTyping(author: Author): void {
     const { name, ssn, gender, birth, address } = author;
+
     cy.get(':nth-child(1) > input').type(name);
     cy.get(':nth-child(2) > input').type(ssn);
     cy.get('.form > :nth-child(3) > .ui').select(gender);
