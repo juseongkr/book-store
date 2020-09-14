@@ -1,25 +1,8 @@
 import supertest from 'supertest';
 import mongoose from 'mongoose';
 import app from '../src/app';
-import { Book, User } from '../src/types';
+import { test_user as user, test_book as book } from '../src/utils/test.data';
 const api = supertest.agent(app);
-
-const book: Book = {
-    isbn: '000000000',
-    title: 'created by jest code',
-    published: '2020-01-01',
-    author: 'jest',
-    genres: ['sample1', 'sample2'],
-    rating: 1,
-    description: 'no comment',
-    uploader: '',
-};
-
-const user: User = {
-    username: 'tester',
-    password: 'tester1234',
-    name: 'api tester',
-};
 
 beforeAll(async () => {
     const response = await api.post('/api/auth/login')

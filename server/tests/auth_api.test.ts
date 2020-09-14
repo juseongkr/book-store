@@ -3,13 +3,8 @@ import mongoose from 'mongoose';
 import app from '../src/app';
 import { User } from '../src/types';
 import UserSchema from '../src/models/user';
+import { temp_user as user } from '../src/utils/test.data';
 const api = supertest.agent(app);
-
-const user: User = {
-    username: 'auth_tester@email.com',
-    password: 'tester12345678',
-    name: 'auth api tester',
-};
 
 describe('AUTH API TEST: Register', () => {
     test('POST: /api/auth/register (Register a new user)', async () => {
@@ -36,7 +31,7 @@ describe('AUTH API TEST: Register', () => {
             .expect(401)
             .expect('Content-Type', /application\/json/);
 
-        expect(response).toContain('must fill out username and password');
+        expect(response).toContain('Invalid value');
     });
 });
 
@@ -47,7 +42,7 @@ describe('AUTH API TEST: Login', () => {
             .expect(401)
             .expect('Content-Type', /application\/json/);
 
-        expect(response).toContain('must fill out username and password');
+        expect(response).toContain('Invalid value');
     });
 
     test('POST: /api/auth/login (Invalid username)', async () => {
@@ -56,7 +51,7 @@ describe('AUTH API TEST: Login', () => {
             .expect(401)
             .expect('Content-Type', /application\/json/);
 
-        expect(response).toContain('invalid username');
+        expect(response).toContain('Invalid value');
     });
 
     test('POST: /api/auth/login (Invalid password)', async () => {
@@ -70,7 +65,7 @@ describe('AUTH API TEST: Login', () => {
             .expect(401)
             .expect('Content-Type', /application\/json/);
 
-        expect(response).toContain('invalid password');
+        expect(response).toContain('Unauthorized access');
     });
 
     test('POST: /api/auth/login (Authorized access)', async () => {
@@ -136,7 +131,7 @@ describe('AUTH API TEST: Unregister', () => {
             .expect(401)
             .expect('Content-Type', /application\/json/);
 
-        expect(response.text).toContain('invalid username');
+        expect(response.text).toContain('Unauthorized access');
     });
 });
 
