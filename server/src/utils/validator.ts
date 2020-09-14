@@ -35,6 +35,9 @@ export const validate = (schemas: Array<ValidationChain>) => {
         }
 
         const errors: Array<ValidationError> = result.array();
-        return res.status(401).json(errors);
+        return res.status(401).json({
+            error: 'Unauthorized access',
+            errors,
+        });
     };
 }

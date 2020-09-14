@@ -61,7 +61,7 @@ describe('Auth page testing', () => {
             cy.loginTyping(invalid);
             cy.get('.segment > .teal').click();
 
-            cy.contains('invalid username');
+            cy.contains('Unauthorized access');
         });
 
         it('Login with invalid password', () => {
@@ -72,7 +72,7 @@ describe('Auth page testing', () => {
             cy.loginTyping(invalid);
             cy.get('.segment > .teal').click();
 
-            cy.contains('invalid password');
+            cy.contains('Unauthorized access');
         });
 
         it('Login with a new user', () => {
