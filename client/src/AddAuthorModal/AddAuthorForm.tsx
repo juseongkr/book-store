@@ -3,7 +3,7 @@ import { Grid, Button } from 'semantic-ui-react';
 import { AuthorFormProps, Author, Gender, GenderSelect } from '../types';
 import { Formik, Form, Field } from 'formik';
 import { TextField, SelectField } from '../Form';
-import { dateRegex } from '../constants';
+import { dateRegex, numRegex } from '../constants';
 
 type Props = Omit<AuthorFormProps, 'errMsg' | 'modalOpen'>;
 
@@ -32,6 +32,9 @@ const AddAuthorForm: React.FC<Props> = ({ onSubmit, onClose }: Props): JSX.Eleme
 
         if (!values.ssn) {
             errors.ssn = errFill;
+        }
+        if (!values.ssn?.match(numRegex)) {
+            errors.ssn = errInvalid;
         }
         if (!values.name) {
             errors.name = errFill;

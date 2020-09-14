@@ -4,25 +4,25 @@ import { Gender } from '../types';
 
 export const userValidation: Array<ValidationChain> = [
     body('username').isEmail().isLength({ min: 6 }),
-    body('password').isLength({ min: 8 }),
-    body('name').trim().optional(),
+    body('password').isLength({ min: 8 }).matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/),
+    body('name').trim().optional({ checkFalsy: true }),
 ];
 
 export const bookValidation: Array<ValidationChain> = [
-    body('isbn').trim().isLength({ min: 4 }),
+    body('isbn').trim().isLength({ min: 4 }).matches(/^[0-9]+$/),
     body('title').trim().isLength({ min: 1 }),
     body('published').isISO8601(),
     body('author').notEmpty(),
-    body('genres').notEmpty(),
-    body('rating').optional().isNumeric().isLength({ min: 0, max: 5 }),
-    body('description').trim().optional(),
+    body('genres').optional({ checkFalsy: true }),
+    body('rating').isNumeric().isLength({ min: 0, max: 5 }).optional({ checkFalsy: true }),
+    body('description').trim().optional({ checkFalsy: true }),
 ];
 
 export const authorValidation: Array<ValidationChain> = [
-    body('ssn').trim().isLength({ min: 4 }),
+    body('ssn').trim().isLength({ min: 4 }).matches(/^[0-9]+$/),
     body('name').trim().isLength({ min: 4 }),
-    body('birth').isISO8601(),
-    body('address').notEmpty(),
+    body('birth').isISO8601().optional({ checkFalsy: true }),
+    body('address').trim().optional({ checkFalsy: true }),
     body('gender').isIn([Gender.Male, Gender.Female, Gender.Other]),
 ];
 
