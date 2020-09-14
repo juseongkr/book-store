@@ -3,7 +3,7 @@ import { RegisterFormProps, NewUser } from '../types';
 import { Form as SemanticForm, Grid, Button} from 'semantic-ui-react';
 import { Formik, Field, Form } from 'formik';
 import { TextField, PasswordField } from '../Form';
-import { emailRegex } from '../constants';
+import { emailRegex, pwRegex } from '../constants';
 
 type Props = Omit<RegisterFormProps, 'errMsg' | 'modalOpen'>;
 
@@ -23,8 +23,8 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, onClose }: Props): JSX.Elemen
         if (!values.username || !values.username?.match(emailRegex)) {
             errors.username = 'You must fill out email';
         }
-        if (!values.password || !values.passwordCheck || values.password.length < 8) {
-            errors.password = 'You must fill out password at least 8 characters';
+        if (!values.password || !values.passwordCheck || values.password.length < 8 || !values.password?.match(pwRegex)) {
+            errors.password = 'You must fill out password at least 8 characters including a number and a lowercase letter';
         }
         if (values.password !== values.passwordCheck) {
             errors.password = 'Please re-enter your password';
