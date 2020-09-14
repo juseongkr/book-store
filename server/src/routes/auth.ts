@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import User from '../models/user';
 import middleware from '../utils/middlewares';
 import logger from '../utils/logger';
+import { userValidation, validate } from '../utils/validator';
 
 const authRouter: Router = express.Router();
 
@@ -16,13 +17,11 @@ authRouter.get('/check', middleware.isLoggedIn, (req: Request, res: Response): v
     }
 });
 
-authRouter.post('/register', middleware.isNotLoggedIn, async (req: Request, res: Response, next: NextFunction) => {
+authRouter.post('/register',
+    middleware.isNotLoggedIn,
+    validate(userValidation),
+    async (req: Request, res: Response, next: NextFunction) => {
     const { username, password, name } = req.body;
-    if (!username || !password) {
-        return res.status(401).json({
-            error: 'must fill out username and password',
-        });
-    }
 
     try {
         const user: Document | null = await User.findOne({ username });
@@ -46,26 +45,24 @@ authRouter.post('/register', middleware.isNotLoggedIn, async (req: Request, res:
     }
 });
 
-authRouter.post('/login', middleware.isNotLoggedIn, async (req: Request, res: Response, next: NextFunction) => {
+authRouter.post('/login',
+    middleware.isNotLoggedIn,
+    validate(userValidation),
+    async (req: Request, res: Response, next: NextFunction) => {
     const { username, password } = req.body;
-    if (!username || !password) {
-        return res.status(401).json({
-            error: 'must fill out username and password',
-        });
-    }
 
     try {
         const user: Document | null = await User.findOne({ username, deactivated: false });
         if (!user) {
             return res.status(401).json({
-                error: 'invalid username',
+                error: 'Unauthorized access',
             });
         }
 
         const valid: boolean = await bcrypt.compare(password, user.get('password'));
         if (!valid) {
             return res.status(401).json({
-                error: 'invalid password',
+                error: 'Unauthorized access',
             });
         }
 
@@ -101,7 +98,10 @@ authRouter.post('/logout', middleware.isLoggedIn, (req: Request, res: Response, 
     });
 });
 
-authRouter.delete('/unregister', middleware.isLoggedIn, async (req: Request, res: Response, next: NextFunction) => {
+authRouter.delete('/unregister',
+    middleware.isLoggedIn,
+    validate(userValidation),
+    async (req: Request, res: Response, next: NextFunction) => {
     const { username, password } = req.body;
     try {
         const user: Document | null = await User.findOne({ username });

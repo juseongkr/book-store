@@ -4,7 +4,7 @@ import { Gender } from '../types';
 
 export const userValidation: Array<ValidationChain> = [
     body('username').isEmail().isLength({ min: 6 }),
-    body('password').isLength({ min: 8 }).matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/),
+    body('password').isLength({ min: 8 }).matches(/((?=.*\d)|(?=.*\W+))(?=.*[A-Za-z]).*$/),
     body('name').trim().optional({ checkFalsy: true }),
 ];
 
@@ -35,6 +35,6 @@ export const validate = (schemas: Array<ValidationChain>) => {
         }
 
         const errors: Array<ValidationError> = result.array();
-        return res.send(errors);
+        return res.status(401).json(errors);
     };
 }
