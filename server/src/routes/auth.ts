@@ -75,7 +75,7 @@ authRouter.post('/login',
             };
         }
 
-        res.json({ username, name: user.get('name') });
+        res.json({ username, id: user.get('id'), name: user.get('name') });
     } catch (err) {
         logger.error(err);
         next(err);
