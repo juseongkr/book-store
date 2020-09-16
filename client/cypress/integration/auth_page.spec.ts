@@ -97,8 +97,8 @@ describe('Auth page testing', () => {
 
         it('Unregister user', () => {
             cy.get('[href="#/info"]').click();
-            cy.get('.equal > :nth-child(1) > input').type(user.password);
-            cy.get('.equal > :nth-child(2) > input').type(user.password);
+            cy.get(':nth-child(3) > .left > [style="max-width: 400px;"] > .form > .equal > :nth-child(1) > input').type(user.password);
+            cy.get(':nth-child(3) > .left > [style="max-width: 400px;"] > .form > .equal > :nth-child(2) > input').type(user.password);
 
             cy.contains('Delete').click();
         });
