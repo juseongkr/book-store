@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import logger from "./logger";
 
 const unknownEndpoint = (_req: Request, res: Response): void => {
-    res.status(404).send({ error: 'unknownEndpoint' });
+    res.redirect('/');
 };
 
 const errorHandler = (err: any, _req: Request, res: Response, next: NextFunction): void => {

@@ -30,4 +30,13 @@ export interface User {
     name?: string;
 }
 
+export type AuthorDto = Pick<Author, 'ssn' | 'uploader'>;
+
+export type BookDto = Pick<Book, 'isbn' | 'uploader'>;
+
+export interface UserDto {
+    username: string;
+    password?: string;
+}
+
 export type AuthorInfo = Omit<Author, 'ssn'>;
