@@ -47,6 +47,7 @@ server
 │   ├── types.ts
 │   ├── models
 │   ├── routes
+│   ├── service
 │   └── utils
 ├── tests
 ├── jest.config.js
