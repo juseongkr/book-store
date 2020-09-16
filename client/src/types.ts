@@ -105,6 +105,7 @@ export type RatingProps = {
 
 export interface NewUser extends User {
     passwordCheck?: string;
+    oldPassword?: string;
 }
 
 export type BookFormProps = {

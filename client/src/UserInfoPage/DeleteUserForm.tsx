@@ -4,11 +4,11 @@ import { Form as SemanticForm, Grid, Container, Segment, Button, Header } from '
 import { Formik, Form, Field } from 'formik';
 import { User, ActiveItem, NewUser } from '../types';
 import { useStateValue } from '../state';
-import { baseUrl, emailRegex } from '../constants';
+import { baseUrl, emailRegex, pwRegex } from '../constants';
 import { TextField, PasswordField } from '../Form';
 import { useHistory } from 'react-router-dom';
 
-const InfoPage: React.FC = (): JSX.Element => {
+const DeleteUserForm: React.FC = (): JSX.Element => {
     const history = useHistory();
     const [ { userInfo }, dispatch ] = useStateValue();
     const [ error, setError ] = React.useState<string>('');
@@ -26,7 +26,7 @@ const InfoPage: React.FC = (): JSX.Element => {
                 password: values.password,
             };
             await axios.delete<User>(`${baseUrl}/auth/unregister`, { data: deleteUser });
-            dispatch({ type: 'SET_USER', payload: { username: '', id: '' } });
+            dispatch({ type: 'SET_USER', payload: { username: '', id: '', name: '' } });
             dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Home });
             history.push('/');
         } catch (err) {
@@ -45,8 +45,8 @@ const InfoPage: React.FC = (): JSX.Element => {
         if (!values.username || !values.username?.match(emailRegex)) {
             errors.username = 'You must fill out email';
         }
-        if (!values.password || !values.passwordCheck || values.password.length < 8) {
-            errors.password = 'You must fill out password at least 8 characters';
+        if (!values.password || !values.passwordCheck || values.password.length < 8 || !values.password?.match(pwRegex)) {
+            errors.password = 'You must fill out password at least 8 characters including a number and a lowercase letter';
         }
         if (values.password !== values.passwordCheck) {
             errors.password = 'Please re-enter your password';
@@ -59,14 +59,14 @@ const InfoPage: React.FC = (): JSX.Element => {
         <Container>
             <Grid textAlign='left'>
                 <Grid.Column style={ { maxWidth: 400 } }>
-                    <Header>Update user info</Header>
+                    <Header>Delete account</Header>
                     { error && <Segment inverted color='red'>{ `Error: ${error}` }</Segment>}
                     <Formik initialValues={ initValue } onSubmit={ submitDeleteUser } validate= { checkForm }>
                     {
                         ({ isValid, dirty }) => {
                             return (
                                 <Form className='form ui'>
-                                    <Field placeholder='Email' name='username' value={ userInfo.username }component={ TextField }/>
+                                    <Field placeholder='Email' name='username' value={ userInfo.username } component={ TextField }/>
                                     <SemanticForm.Group widths='equal'>
                                         <Field placeholder='Password' name='password' component={ PasswordField }/>
                                         <Field placeholder='Re-enter Password' name='passwordCheck' component={ PasswordField }/>
@@ -87,4 +87,4 @@ const InfoPage: React.FC = (): JSX.Element => {
     );
 };
 
-export default InfoPage;
+export default DeleteUserForm;

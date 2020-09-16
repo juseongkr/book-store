@@ -28,7 +28,7 @@ export const LoginForm = loadable(() => import('../LoginForm'), {
   fallback: <Loading/>,
 });
 
-export const InfoPage = loadable(() => import('../InfoPage'), {
+export const InfoPage = loadable(() => import('../UserInfoPage'), {
   fallback:<Loading/>,
 });
 
@@ -41,7 +41,7 @@ const MenuBar: React.FC = (): JSX.Element => {
         const { data: authUser } = await axios.get<UserInfo>(`${baseUrl}/auth/check`);
         dispatch({ type: 'SET_USER', payload: authUser });
       } catch (err) {
-        dispatch({ type: 'SET_USER', payload: { username: '', id: '' } });
+        dispatch({ type: 'SET_USER', payload: { username: '', id: '', name: '' } });
       }
     })();
   }, [dispatch]);
@@ -49,7 +49,7 @@ const MenuBar: React.FC = (): JSX.Element => {
   const userLogout = async (): Promise<void> => {
     try {
       await axios.post<User>(`${baseUrl}/auth/logout`);
-      dispatch({ type: 'SET_USER', payload: { username: '', id: '' } });
+      dispatch({ type: 'SET_USER', payload: { username: '', id: '', name: '' } });
       dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Home });
     } catch (err) {
       console.error(err);
@@ -64,7 +64,7 @@ const MenuBar: React.FC = (): JSX.Element => {
       {
         userInfo?.username ?
         <Menu.Menu position='right'>
-          <Menu.Item as={ Link } to='/info' color='teal' name='info' active={ actived === 'info' } onClick={ () => dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Info }) } onMouseOver={ () => InfoPage.preload() }>{ userInfo.username.split('@')[0] }</Menu.Item>
+          <Menu.Item as={ Link } to='/info' color='teal' name='info' active={ actived === 'info' } onClick={ () => dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Info }) } onMouseOver={ () => InfoPage.preload() }>{ userInfo?.name || userInfo.username.split('@')[0] }</Menu.Item>
           <Menu.Item as={ Link } to='/' color='teal' name='logout' onClick={ userLogout }>Logout</Menu.Item>
         </Menu.Menu> : 
         <Menu.Item as={ Link } to='/login' color='teal' name='login' position='right' active={ actived === 'login' } onClick={ () => dispatch({ type: 'SET_ACTIVE', payload: ActiveItem.Login }) } onMouseOver={ () => LoginForm.preload() }>Login</Menu.Item>
