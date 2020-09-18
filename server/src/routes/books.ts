@@ -1,14 +1,15 @@
 import express, { Request, Response, NextFunction, Router } from 'express';
 import { Document, MongooseFilterQuery } from 'mongoose';
 import Book from '../models/book';
-import User from '../models/user';
 import middleware from '../utils/middlewares';
 import logger from '../utils/logger';
 import { bookValidation, validate } from '../utils/validator';
+import { addBook, deleteBook, updateBook } from '../service/books.service';
 
 const booksRouter: Router = express.Router();
 
-booksRouter.get('/', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+booksRouter.get('/',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { search, genre, page } = req.query;
     const filterQuery: MongooseFilterQuery<Pick<Document, "_id">> = {};
     if (search) {
@@ -34,7 +35,8 @@ booksRouter.get('/', async (req: Request, res: Response, next: NextFunction): Pr
     }
 });
 
-booksRouter.get('/:isbn', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+booksRouter.get('/:isbn',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const book: Document | null = await Book.findOne({ isbn: req.params.isbn });
         if (book) {
@@ -48,13 +50,14 @@ booksRouter.get('/:isbn', async (req: Request, res: Response, next: NextFunction
     }
 });
 
-booksRouter.post('/', 
-    middleware.isLoggedIn, validate(bookValidation),
+booksRouter.post('/',
+    middleware.isLoggedIn,
+    validate(bookValidation),
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const body: any = req.body;
     const session: Express.Session | undefined = req.session;
     try {
-        const book: Document = new Book({
+        const book = {
             isbn: body.isbn,
             title: body.title,
             published: body.published,
@@ -63,27 +66,28 @@ booksRouter.post('/',
             rating: body?.rating,
             description: body?.description,
             uploader: session!.user.id,
-        });
-        
-        const savedBook: Document = await book.save();
-        await User.findByIdAndUpdate(session!.user.id, {
-            $addToSet: { books: savedBook }
-        }, { new: true });
-        res.json(savedBook);
+        };
+        const savedBook: Document | null = await addBook(book);
+        if (savedBook) {
+            res.json(savedBook);
+        } else {
+            res.status(409).send({
+                error: 'isbn conflict',
+            });
+        }
     } catch (err) {
         logger.error(err);
         next(err);
     }
 });
 
-booksRouter.delete('/:isbn', middleware.isLoggedIn, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+booksRouter.delete('/:isbn',
+    middleware.isLoggedIn,
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const session: Express.Session | undefined = req.session;
     try {
-        const deleted: Document | null = await Book.findOneAndDelete({ uploader: session!.user.id, isbn: req.params.isbn });
+        const deleted: Document | null = await deleteBook({ uploader: session!.user.id, isbn: req.params.isbn });
         if (deleted) {
-            await User.findByIdAndUpdate(session!.user.id, {
-                $pull: { books: deleted!.get('id') }
-            });
             res.status(204).end();
         } else {
             res.status(400).end();
@@ -95,15 +99,24 @@ booksRouter.delete('/:isbn', middleware.isLoggedIn, async (req: Request, res: Re
 });
 
 booksRouter.put('/:isbn',
-    middleware.isLoggedIn, validate(bookValidation),
+    middleware.isLoggedIn,
+    validate(bookValidation),
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const body: any = req.body;
     const session: Express.Session | undefined = req.session;
     try {
-        const book: Document = {
-            ...body,
+        const book = {
+            isbn: req.params.isbn,
+            title: body.title,
+            published: body.published,
+            author: body.author,
+            genres: body.genres,
+            rating: body?.rating,
+            description: body?.description,
+            uploader: session!.user.id,
         };
-        const updated: Document | null = await Book.findOneAndUpdate({ uploader: session!.user.id, isbn: req.params.isbn }, book, { new: true });
+
+        const updated: Document | null = await updateBook(book);
         if (updated) {
             res.status(200).end();
         } else {
