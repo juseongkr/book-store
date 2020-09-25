@@ -45,9 +45,9 @@ server
 │   ├── app.ts
 │   ├── index.ts
 │   ├── types.ts
+│   ├── controllers
 │   ├── models
-│   ├── routes
-│   ├── service
+│   ├── services
 │   └── utils
 ├── tests
 ├── jest.config.js
