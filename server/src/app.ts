@@ -5,18 +5,16 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import rateLimit from 'express-rate-limit';
-
 import connectRedis from 'connect-redis';
 import redis from 'redis';
 import hpp from 'hpp';
 
 import { MONGODB_URI, SECRET_KEY, REDIS_HOST, REDIS_PASSWORD } from './utils/config';
 import mongoose from 'mongoose';
-import pingRouter from './routes/ping';
-import booksRouter from './routes/books';
-import authorsRouter from './routes/authors';
+import booksRouter from './controllers/books.controller';
+import authorsRouter from './controllers/authors.controller';
 import middleware from './utils/middlewares';
-import authRouter from './routes/auth';
+import authRouter from './controllers/auth.controller';
 import logger from './utils/logger';
 
 if (MONGODB_URI === 'undefined' || REDIS_HOST === 'undefined') {
@@ -76,7 +74,6 @@ app.use(session({
     }),
 }));
 
-app.use('/api/ping', pingRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/books', booksRouter);
 app.use('/api/authors', authorsRouter);

@@ -2,7 +2,7 @@ import supertest from 'supertest';
 import mongoose from 'mongoose';
 import app from '../src/app';
 import { User } from '../src/types';
-import UserSchema from '../src/models/user';
+import UserSchema from '../src/models/user.model';
 import { temp_user as user } from '../src/utils/test.data';
 const api = supertest.agent(app);
 

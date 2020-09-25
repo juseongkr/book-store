@@ -1,10 +1,10 @@
 import express, { Request, Response, NextFunction, Router } from 'express';
 import { Document } from 'mongoose';
-import User from '../models/user';
+import User from '../models/user.model';
 import middleware from '../utils/middlewares';
 import logger from '../utils/logger';
 import { userValidation, validate } from '../utils/validator';
-import { hashPassword, updateUserInfo, validateUserPassword } from '../service/auth.service';
+import { hashPassword, updateUserInfo, validateUserPassword } from '../services/auth.service';
 
 const authRouter: Router = express.Router();
 

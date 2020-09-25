@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 import { Author as AuthorType } from '../types';
-import Author from '../models/author';
+import Author from '../models/author.model';
 import { AuthorDto } from '../types';
 
 export const updateAuthor = async (newAuthor: AuthorType): Promise<Document | null> => {

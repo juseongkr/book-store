@@ -1,10 +1,10 @@
 import express, { Request, Response, NextFunction, Router } from 'express';
 import { Document, MongooseFilterQuery } from 'mongoose';
-import Author from '../models/author';
+import Author from '../models/author.model';
 import middleware from '../utils/middlewares';
 import logger from '../utils/logger';
 import { authorValidation, validate } from '../utils/validator';
-import { addAuthor, deleteAuthor, updateAuthor } from '../service/authors.service';
+import { addAuthor, deleteAuthor, updateAuthor } from '../services/authors.service';
 
 const authorsRouter: Router = express.Router();
 

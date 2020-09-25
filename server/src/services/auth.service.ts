@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
-import User from '../models/user';
+import User from '../models/user.model';
 import * as bcrypt from 'bcrypt';
 import { UserDto } from '../types';
 

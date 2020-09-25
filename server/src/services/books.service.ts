@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 import { Book as BookType } from '../types';
-import Book from '../models/book';
-import User from '../models/user';
+import Book from '../models/book.model';
+import User from '../models/user.model';
 import { BookDto } from '../types';
 
 export const updateBook = async (newBook: BookType): Promise<Document | null> => {
