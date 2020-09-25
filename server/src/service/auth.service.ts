@@ -19,6 +19,6 @@ export const updateUserInfo = async (userDto: UserDto, newUser: Document): Promi
     return await User.findOneAndUpdate({ username, deactivated: false }, newUser, { new: true });
 }
 
-export const hashPassword = async (password: string): Promise<string> => {
-    return await bcrypt.hash(password, 12);
+export const hashPassword = async (password: string, saltRound=12): Promise<string> => {
+    return await bcrypt.hash(password, saltRound);
 }
