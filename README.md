@@ -55,7 +55,7 @@ server
 └── tsconfig.json
 ```
 
-## <a id="getting-started" style="color: black;">Getting stared</a>
+## <a id="getting-started" style="color: black;">Getting started</a>
 Before getting started, you need ```.env``` file at ```server/build/src/``` following the ```.env.template``` file located in ```server``` directory.
 
 ## <a id="build" style="color: black;">Build</a>
@@ -96,4 +96,3 @@ npm run start:prod
 - [ ] Create user info page
 - [ ] Create genre list page
 - [ ] Update list page
-- [ ] Server Side Rendering
