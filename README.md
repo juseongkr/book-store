@@ -11,7 +11,7 @@ https://book.juseong.me
 - [Architecture](#architecture)
   - [Frontend](#frontend)
   - [Backend](#backend)
-- [Getting stared](#getting-started)
+- [Getting started](#getting-started)
 - [Build](#build)
 - [Test](#test)
   - [Frontend](#test-frontend)
