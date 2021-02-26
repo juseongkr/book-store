@@ -7,7 +7,7 @@
     "test": "jest --watchAll",
     "build": "tsc",
     "start": "ts-node src/index.ts",
-    "start:prod": "cd build/src && pm2 start index.js -i -1"
+    "start:prod": "pm2 start build/src/index.js -i -1"
   },
   "author": "",
   "license": "ISC",
