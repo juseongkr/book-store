@@ -17,8 +17,13 @@ import middleware from './utils/middlewares';
 import authRouter from './controllers/auth.controller';
 import logger from './utils/logger';
 
-if (MONGODB_URI === 'undefined' || REDIS_HOST === 'undefined') {
-    logger.error('PATH ERROR', MONGODB_URI, REDIS_HOST);
+if (MONGODB_URI === 'undefined') {
+    logger.error('MONGODB_URI PATH ERROR', MONGODB_URI);
+    process.exit(0);
+}
+
+if (REDIS_HOST === 'undefined') {
+    logger.error('REDIS_HOST PATH ERROR', MONGODB_URI, REDIS_HOST);
     process.exit(0);
 }
 
@@ -28,7 +33,7 @@ mongoose.connect(MONGODB_URI, {
 	useUnifiedTopology: true,
 })
 .catch(err => {
-    logger.error('CONNECTION FAILED', err.message);
+    logger.error('DB CONNECTION FAILED', err.message);
 });
 
 const RedisStore: connectRedis.RedisStore = connectRedis(session);
