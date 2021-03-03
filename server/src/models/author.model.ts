@@ -1,47 +1,50 @@
-import mongoose from 'mongoose';
-import uniqueValidator from 'mongoose-unique-validator';
-mongoose.set('useFindAndModify', false);
+import mongoose from "mongoose";
+import uniqueValidator from "mongoose-unique-validator";
+mongoose.set("useFindAndModify", false);
 
-const authorSchema: mongoose.Schema<unknown> = new mongoose.Schema({
+const authorSchema: mongoose.Schema<unknown> = new mongoose.Schema(
+  {
     ssn: {
-        type: String,
-        minlength: 4,
-        unique: true,
+      type: String,
+      minlength: 4,
+      unique: true,
     },
     name: {
-        type: String,
-        minlengh: 4,
-        required: true,
+      type: String,
+      minlengh: 4,
+      required: true,
     },
     birth: {
-        type: String,
-        required: false,
+      type: String,
+      required: false,
     },
     address: {
-        type: String,
-        required: false,
+      type: String,
+      required: false,
     },
     gender: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     uploader: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
-    }
-}, {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+  },
+  {
     timestamps: true,
-})
+  }
+);
 
-authorSchema.set('toJSON', {
-    transform: (_doc, obj): void => {
-        obj.id = obj._id.toString();
-        delete obj._id;
-        delete obj.__v;
-    }
+authorSchema.set("toJSON", {
+  transform: (_doc, obj): void => {
+    obj.id = obj._id.toString();
+    delete obj._id;
+    delete obj.__v;
+  },
 });
 
 authorSchema.plugin(uniqueValidator);
 
-export default mongoose.model('Author', authorSchema);
+export default mongoose.model("Author", authorSchema);

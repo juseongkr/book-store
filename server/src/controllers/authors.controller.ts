@@ -76,7 +76,7 @@ authorsRouter.post(
         uploader: session!.user.id,
       };
 
-      const savedAuthor = createAuthor(author);
+      const savedAuthor = await createAuthor(author);
       if (savedAuthor) {
         res.json(savedAuthor);
       } else {
