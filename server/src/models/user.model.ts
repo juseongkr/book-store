@@ -1,55 +1,58 @@
-import mongoose from 'mongoose';
-import uniqueValidator from 'mongoose-unique-validator';
-mongoose.set('useFindAndModify', false);
+import mongoose from "mongoose";
+import uniqueValidator from "mongoose-unique-validator";
+mongoose.set("useFindAndModify", false);
 
-const userSchema: mongoose.Schema<unknown> = new mongoose.Schema({
+const userSchema: mongoose.Schema<unknown> = new mongoose.Schema(
+  {
     username: {
-        type: String,
-        minlength: 6,
-        unique: true,
-        required: true,
+      type: String,
+      minlength: 6,
+      unique: true,
+      required: true,
     },
     password: {
-        type: String,
-        minlength: 8,
-        required: true,
+      type: String,
+      minlength: 8,
+      required: true,
     },
     name: {
-        type: String,
-        required: false,
+      type: String,
+      required: false,
     },
     books: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Book',
-        }
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Book",
+      },
     ],
     deactivated: {
-        type: Boolean,
-        required: true,
-        default: false,
+      type: Boolean,
+      required: true,
+      default: false,
     },
     ip_address: {
-        type: String,
-        required: false,
+      type: String,
+      required: false,
     },
     last_login: {
-        type: Date,
-        required: false,
+      type: Date,
+      required: false,
     },
-}, {
+  },
+  {
     timestamps: true,
-});
+  }
+);
 
-userSchema.set('toJSON', {
-    transform: (_doc, obj) => {
-        obj.id = obj._id.toString();
-        delete obj._id;
-        delete obj.__v;
-        delete obj.password;
-    }
+userSchema.set("toJSON", {
+  transform: (_doc, obj) => {
+    obj.id = obj._id.toString();
+    delete obj._id;
+    delete obj.__v;
+    delete obj.password;
+  },
 });
 
 userSchema.plugin(uniqueValidator);
 
-export default mongoose.model('User', userSchema);
+export default mongoose.model("User", userSchema);
