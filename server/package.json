@@ -24,6 +24,7 @@
     "express-validator": "^6.6.1",
     "helmet": "^3.23.3",
     "hpp": "^0.2.3",
+    "http-status-codes": "^2.1.4",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.3",
     "mongoose-unique-validator": "^2.0.3",
