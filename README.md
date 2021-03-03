@@ -7,6 +7,12 @@
 ## Demo page
 https://book.juseong.me
 
+## Stacks
+* [React.js](https://reactjs.org)
+* [Express.js](https://expressjs.com)
+* [MongoDB](https://mongodb.com)
+* [TypeScript](https://www.typescriptlang.org)
+
 ## Contents
 - [Architecture](#architecture)
   - [Frontend](#frontend)
