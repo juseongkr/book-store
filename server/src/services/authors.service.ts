@@ -1,7 +1,35 @@
-import { Document } from "mongoose";
-import { Author as AuthorType } from "../types";
+import { Document, MongooseFilterQuery } from "mongoose";
+import { Author as AuthorType, AuthorPage, FilterDto } from "../types";
 import Author from "../models/author.model";
 import { AuthorDto } from "../types";
+
+export const getAuthorPage = async (
+  filterDto: FilterDto
+): Promise<AuthorPage> => {
+  const { search, page } = filterDto;
+  const filterQuery: MongooseFilterQuery<Pick<Document, "_id">> = {};
+  const start = (Number(page) - 1) * 20;
+  const end = start + 20;
+
+  if (search) {
+    filterQuery.name = {
+      $regex: search,
+      $options: "i",
+    };
+  }
+
+  const authors = await Author.find(filterQuery).sort({ createdAt: -1 });
+  const pagedAuthors = authors.slice(start, end);
+
+  return {
+    pagination: {
+      total: authors.length,
+      count: pagedAuthors.length,
+      page,
+    },
+    data: pagedAuthors,
+  };
+};
 
 export const updateAuthor = async (
   newAuthor: AuthorType

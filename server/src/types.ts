@@ -1,3 +1,5 @@
+import { Document } from "mongoose";
+
 export enum Gender {
   Male = "male",
   Female = "female",
@@ -39,4 +41,18 @@ export interface UserDto {
   password?: string;
 }
 
+export interface FilterDto {
+  search: String;
+  page: Number;
+}
+
 export type AuthorInfo = Omit<Author, "ssn">;
+
+export type AuthorPage = {
+  pagination: {
+    total: Number;
+    count: Number;
+    page: Number;
+  };
+  data: Document[];
+};
