@@ -44,11 +44,12 @@ export interface UserDto {
 export interface FilterDto {
   search: String;
   page: Number;
+  genre?: String;
 }
 
 export type AuthorInfo = Omit<Author, "ssn">;
 
-export type AuthorPage = {
+export type Page = {
   pagination: {
     total: Number;
     count: Number;

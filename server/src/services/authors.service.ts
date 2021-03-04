@@ -1,11 +1,9 @@
 import { Document, MongooseFilterQuery } from "mongoose";
-import { Author as AuthorType, AuthorPage, FilterDto } from "../types";
+import { Author as AuthorType, Page, FilterDto } from "../types";
 import Author from "../models/author.model";
 import { AuthorDto } from "../types";
 
-export const getAuthorPage = async (
-  filterDto: FilterDto
-): Promise<AuthorPage> => {
+export const getAuthorPage = async (filterDto: FilterDto): Promise<Page> => {
   const { search, page } = filterDto;
   const filterQuery: MongooseFilterQuery<Pick<Document, "_id">> = {};
   const start = (Number(page) - 1) * 20;

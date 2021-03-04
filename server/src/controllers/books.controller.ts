@@ -1,10 +1,14 @@
 import express, { Request, Response, NextFunction } from "express";
-import { Document, MongooseFilterQuery } from "mongoose";
 import Book from "../models/book.model";
 import middleware from "../utils/middlewares";
 import logger from "../utils/logger";
 import { bookValidation, validate } from "../utils/validator";
-import { createBook, deleteBook, updateBook } from "../services/books.service";
+import {
+  createBook,
+  deleteBook,
+  getBookPage,
+  updateBook,
+} from "../services/books.service";
 import { StatusCodes } from "http-status-codes";
 
 const booksRouter = express.Router();
@@ -13,24 +17,13 @@ booksRouter.get(
   "/",
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { search, genre, page } = req.query;
-    const filterQuery: MongooseFilterQuery<Pick<Document, "_id">> = {};
-
-    if (search) {
-      filterQuery.title = {
-        $regex: search,
-        $options: "i",
-      };
-    }
-    if (genre) {
-      filterQuery.genres = {
-        $in: genre.toString().toLowerCase().split(","),
-      };
-    }
 
     try {
-      const books = await Book.find(filterQuery)
-        .sort({ createdAt: -1 })
-        .limit(Number(page) ?? 0);
+      const books = await getBookPage({
+        search: String(search ?? ""),
+        page: Number(page ?? 1),
+        genre: String(genre ?? ""),
+      });
 
       res.json(books);
     } catch (err) {
