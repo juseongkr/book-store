@@ -1,5 +1,4 @@
 import express, { Request, Response, NextFunction } from "express";
-import { Document, MongooseFilterQuery } from "mongoose";
 import Author from "../models/author.model";
 import middleware from "../utils/middlewares";
 import logger from "../utils/logger";
@@ -7,6 +6,7 @@ import { authorValidation, validate } from "../utils/validator";
 import {
   createAuthor,
   deleteAuthor,
+  getAuthorPage,
   updateAuthor,
 } from "../services/authors.service";
 import { StatusCodes } from "http-status-codes";
@@ -17,19 +17,13 @@ authorsRouter.get(
   "/",
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { search, page } = req.query;
-    const filterQuery: MongooseFilterQuery<Pick<Document, "_id">> = {};
-
-    if (search) {
-      filterQuery.name = {
-        $regex: search,
-        $options: "i",
-      };
-    }
 
     try {
-      const authors = await Author.find(filterQuery)
-        .sort({ createdAt: -1 })
-        .limit(Number(page) ?? 0);
+      const authors = await getAuthorPage({
+        search: String(search ?? ""),
+        page: Number(page ?? 1),
+      });
+
       res.json(authors);
     } catch (err) {
       logger.error(err);
