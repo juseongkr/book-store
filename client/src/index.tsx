@@ -6,10 +6,10 @@ import { StateProvider, reducer } from './state';
 import { HelmetProvider } from 'react-helmet-async';
 
 ReactDOM.render(
-    <StateProvider reducer={ reducer }>
-      <HelmetProvider>
-        <App />
-      </HelmetProvider>
-    </StateProvider>,
+  <StateProvider reducer={reducer}>
+    <HelmetProvider>
+      <App />
+    </HelmetProvider>
+  </StateProvider>,
   document.getElementById('root')
 );
