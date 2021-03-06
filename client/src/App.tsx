@@ -1,13 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from "react";
-import axios from "axios";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { Container, Divider } from "semantic-ui-react";
 import { Helmet } from "react-helmet-async";
 
-import { BookPage, AuthorPage } from "./types";
 import { useStateValue } from "./state/state";
-import { baseUrl } from "./constants";
 import MainPage from "./MainPage";
 import FooterBar from "./FooterBar";
 import MenuBar, {
@@ -20,28 +17,7 @@ import MenuBar, {
 } from "./MenuBar";
 
 const App: React.FC = (): JSX.Element => {
-  const [{ actived, curPage }, dispatch] = useStateValue();
-
-  React.useEffect(() => {
-    void (async () => {
-      try {
-        const { data: bookPage } = await axios.get<BookPage>(
-          `${baseUrl}/books?page=${curPage}`
-        );
-        const { data: authorPage } = await axios.get<AuthorPage>(
-          `${baseUrl}/authors?page=${curPage}`
-        );
-        dispatch({ type: "SET_BOOK_LIST", payload: bookPage.data });
-        dispatch({ type: "SET_AUTHOR_LIST", payload: authorPage.data });
-        dispatch({
-          type: "SET_PAGE_LIMIT",
-          payload: authorPage.pagination.limit,
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, [curPage, dispatch]);
+  const [{ actived }] = useStateValue();
 
   return (
     <div className="App">

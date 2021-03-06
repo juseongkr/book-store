@@ -28,6 +28,10 @@ const BookListPage: React.FC = (): JSX.Element => {
           type: "SET_COUNT_PER_PAGE",
           payload: bookPage.pagination.count,
         });
+        dispatch({
+          type: "SET_PAGE_LIMIT",
+          payload: bookPage.pagination.limit,
+        });
       } catch (err) {
         console.log(err);
       }
@@ -125,6 +129,11 @@ const BookListPage: React.FC = (): JSX.Element => {
       />
       <Container textAlign="center">
         <Pagination
+          boundaryRange={0}
+          ellipsisItem={null}
+          firstItem={null}
+          lastItem={null}
+          siblingRange={3}
           defaultActivePage={curPage}
           totalPages={Math.ceil(totalPage / pageLimit)}
           onPageChange={(_, data) =>

@@ -8,7 +8,10 @@ import { baseUrl } from "../constants";
 import AddAuthorModal from "../AddAuthorModal";
 
 const AuthorListPage: React.FC = (): JSX.Element => {
-  const [{ authors, curPage, totalPage, pageLimit }, dispatch] = useStateValue();
+  const [
+    { authors, curPage, totalPage, pageLimit },
+    dispatch,
+  ] = useStateValue();
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
   const [error, setError] = React.useState<string>("");
 
@@ -26,6 +29,10 @@ const AuthorListPage: React.FC = (): JSX.Element => {
         dispatch({
           type: "SET_COUNT_PER_PAGE",
           payload: authorPage.pagination.count,
+        });
+        dispatch({
+          type: "SET_PAGE_LIMIT",
+          payload: authorPage.pagination.limit,
         });
       } catch (err) {
         console.log(err);
@@ -113,6 +120,11 @@ const AuthorListPage: React.FC = (): JSX.Element => {
       />
       <Container textAlign="center">
         <Pagination
+          boundaryRange={0}
+          ellipsisItem={null}
+          firstItem={null}
+          lastItem={null}
+          siblingRange={3}
           defaultActivePage={curPage}
           totalPages={Math.ceil(totalPage / pageLimit)}
           onPageChange={(_, data) =>
