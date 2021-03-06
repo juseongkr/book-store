@@ -78,14 +78,14 @@ const AuthorListPage: React.FC = (): JSX.Element => {
       >
         Add new author
       </Button>
-      <Table celled>
+      <Table celled striped>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>No.</Table.HeaderCell>
-            <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Birth</Table.HeaderCell>
-            <Table.HeaderCell>Address</Table.HeaderCell>
-            <Table.HeaderCell>Gender</Table.HeaderCell>
+            <Table.HeaderCell textAlign="center">No.</Table.HeaderCell>
+            <Table.HeaderCell textAlign="center">Name</Table.HeaderCell>
+            <Table.HeaderCell textAlign="center">Birth</Table.HeaderCell>
+            <Table.HeaderCell textAlign="center">Address</Table.HeaderCell>
+            <Table.HeaderCell textAlign="center">Gender</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>

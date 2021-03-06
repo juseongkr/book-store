@@ -93,15 +93,15 @@ const BookListPage: React.FC = (): JSX.Element => {
       >
         Add new book
       </Button>
-      <Table celled>
+      <Table celled striped>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>No.</Table.HeaderCell>
-            <Table.HeaderCell>Title</Table.HeaderCell>
-            <Table.HeaderCell>Author</Table.HeaderCell>
-            <Table.HeaderCell>Published</Table.HeaderCell>
-            <Table.HeaderCell>Genres</Table.HeaderCell>
-            <Table.HeaderCell>Rating</Table.HeaderCell>
+            <Table.HeaderCell textAlign="center">No.</Table.HeaderCell>
+            <Table.HeaderCell textAlign="center">Title</Table.HeaderCell>
+            <Table.HeaderCell textAlign="center">Author</Table.HeaderCell>
+            <Table.HeaderCell textAlign="center">Published</Table.HeaderCell>
+            <Table.HeaderCell textAlign="center">Genres</Table.HeaderCell>
+            <Table.HeaderCell textAlign="center">Rating</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
