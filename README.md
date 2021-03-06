@@ -1,19 +1,20 @@
-# Book store
-> First fullstack web project with Express, React. Powered by TypeScript
+# Book store 📚
+Welcome to books store. 👋
 
-<img width="800" alt="img2" src="https://user-images.githubusercontent.com/10775915/90505751-1d377200-e18e-11ea-816e-735589849995.png"></img>
-<img width="800" alt="img" src="https://user-images.githubusercontent.com/10775915/89705010-6c162800-d994-11ea-977d-482480f3529e.png"></img>
+<img width="1000" alt="login" src="https://user-images.githubusercontent.com/10775915/90505751-1d377200-e18e-11ea-816e-735589849995.png"></img>
+<img width="1000" alt="main" src="https://user-images.githubusercontent.com/10775915/110192662-ba2fd300-7e72-11eb-94ae-bc8df4beb0f7.png"></img>
 
-## Demo page
+## Demo page 👾
 https://book.juseong.me
 
-## Stacks
+## Stacks 🏭
+<img width="300" alt="mern" src="https://user-images.githubusercontent.com/10775915/110192567-31189c00-7e72-11eb-8066-661332938132.jpg"></img>
 * [React.js](https://reactjs.org)
 * [Express.js](https://expressjs.com)
 * [MongoDB](https://mongodb.com)
 * [TypeScript](https://www.typescriptlang.org)
 
-## Contents
+## Contents 📦
 - [Architecture](#architecture)
   - [Frontend](#frontend)
   - [Backend](#backend)
@@ -99,6 +100,5 @@ npm run start:prod
 ----
 
 ### Todo List
-- [ ] Create user info page
+- [x] ~~Update pagination feature~~
 - [ ] Create genre list page
-- [ ] Update list page
