@@ -101,4 +101,5 @@ npm run start:prod
 
 ### Todo List
 - [x] ~~Update pagination feature~~
+- [ ] Create search filter
 - [ ] Create genre list page
