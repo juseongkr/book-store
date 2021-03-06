@@ -20,24 +20,28 @@ import MenuBar, {
 } from "./MenuBar";
 
 const App: React.FC = (): JSX.Element => {
-  const [{ actived }, dispatch] = useStateValue();
+  const [{ actived, curPage }, dispatch] = useStateValue();
 
   React.useEffect(() => {
     void (async () => {
       try {
         const { data: bookPage } = await axios.get<BookPage>(
-          `${baseUrl}/books`
+          `${baseUrl}/books?page=${curPage}`
         );
         const { data: authorPage } = await axios.get<AuthorPage>(
-          `${baseUrl}/authors`
+          `${baseUrl}/authors?page=${curPage}`
         );
         dispatch({ type: "SET_BOOK_LIST", payload: bookPage.data });
         dispatch({ type: "SET_AUTHOR_LIST", payload: authorPage.data });
+        dispatch({
+          type: "SET_PAGE_LIMIT",
+          payload: authorPage.pagination.limit,
+        });
       } catch (err) {
         console.log(err);
       }
     })();
-  }, [dispatch]);
+  }, [curPage, dispatch]);
 
   return (
     <div className="App">

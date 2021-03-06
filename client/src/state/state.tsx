@@ -6,6 +6,9 @@ const initState: State = {
   authors: {},
   userInfo: { username: "", id: "" },
   actived: ActiveItem.Home,
+  totalPage: 0,
+  curPage: 1,
+  pageLimit: 0,
 };
 
 export const StateContext: React.Context<

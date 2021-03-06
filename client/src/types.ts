@@ -22,6 +22,7 @@ export interface Page {
     total: number;
     count: number;
     page: number;
+    limit: number;
   };
 }
 
@@ -81,6 +82,9 @@ export type State = {
   };
   userInfo: UserInfo;
   actived: ActiveItem;
+  totalPage: number;
+  curPage: number;
+  pageLimit: number;
 };
 
 export type Action =
@@ -115,6 +119,22 @@ export type Action =
   | {
       type: "SET_ACTIVE";
       payload: ActiveItem;
+    }
+  | {
+      type: "SET_TOTAL_PAGE";
+      payload: number;
+    }
+  | {
+      type: "SET_CUR_PAGE";
+      payload: number;
+    }
+  | {
+      type: "SET_COUNT_PER_PAGE";
+      payload: number;
+    }
+  | {
+      type: "SET_PAGE_LIMIT";
+      payload: number;
     };
 
 export type StateProviderProps = {

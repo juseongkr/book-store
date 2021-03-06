@@ -13,7 +13,6 @@ export const reducer = (state: State, action: Action): State => {
             }),
             {}
           ),
-          ...state.books,
         },
       };
     case "ADD_BOOK":
@@ -45,7 +44,6 @@ export const reducer = (state: State, action: Action): State => {
             }),
             {}
           ),
-          ...state.authors,
         },
       };
     case "ADD_AUTHOR":
@@ -75,6 +73,21 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         actived: action.payload,
+      };
+    case "SET_TOTAL_PAGE":
+      return {
+        ...state,
+        totalPage: action.payload,
+      };
+    case "SET_CUR_PAGE":
+      return {
+        ...state,
+        curPage: action.payload,
+      };
+    case "SET_PAGE_LIMIT":
+      return {
+        ...state,
+        pageLimit: action.payload,
       };
     default:
       return state;

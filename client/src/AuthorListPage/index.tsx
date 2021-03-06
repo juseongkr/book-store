@@ -2,15 +2,36 @@ import React from "react";
 import axios from "axios";
 import { Container, Table, Button, Icon, Pagination } from "semantic-ui-react";
 import { useStateValue } from "../state";
-import { Author } from "../types";
+import { Author, AuthorPage } from "../types";
 import { Link } from "react-router-dom";
 import { baseUrl } from "../constants";
 import AddAuthorModal from "../AddAuthorModal";
 
 const AuthorListPage: React.FC = (): JSX.Element => {
-  const [{ authors }, dispatch] = useStateValue();
+  const [{ authors, curPage, totalPage, pageLimit }, dispatch] = useStateValue();
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
   const [error, setError] = React.useState<string>("");
+
+  React.useEffect(() => {
+    void (async () => {
+      try {
+        const { data: authorPage } = await axios.get<AuthorPage>(
+          `${baseUrl}/authors?page=${curPage}`
+        );
+        dispatch({ type: "SET_AUTHOR_LIST", payload: authorPage.data });
+        dispatch({
+          type: "SET_TOTAL_PAGE",
+          payload: authorPage.pagination.total,
+        });
+        dispatch({
+          type: "SET_COUNT_PER_PAGE",
+          payload: authorPage.pagination.count,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, [curPage, dispatch]);
 
   const openModal = (): void => {
     setModalOpen(true);
@@ -53,6 +74,7 @@ const AuthorListPage: React.FC = (): JSX.Element => {
       <Table celled>
         <Table.Header>
           <Table.Row>
+            <Table.HeaderCell>No.</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Birth</Table.HeaderCell>
             <Table.HeaderCell>Address</Table.HeaderCell>
@@ -62,6 +84,7 @@ const AuthorListPage: React.FC = (): JSX.Element => {
         <Table.Body>
           {Object.values(authors).map((author: Author, id: number) => (
             <Table.Row key={id}>
+              <Table.Cell>{(curPage - 1) * pageLimit + id + 1}</Table.Cell>
               <Table.Cell>
                 <Link to={"/authors/" + author.ssn}>{author.name}</Link>
               </Table.Cell>
@@ -88,6 +111,15 @@ const AuthorListPage: React.FC = (): JSX.Element => {
         onClose={closeModal}
         errMsg={error}
       />
+      <Container textAlign="center">
+        <Pagination
+          defaultActivePage={curPage}
+          totalPages={Math.ceil(totalPage / pageLimit)}
+          onPageChange={(_, data) =>
+            dispatch({ type: "SET_CUR_PAGE", payload: Number(data.activePage) })
+          }
+        />
+      </Container>
     </div>
   );
 };

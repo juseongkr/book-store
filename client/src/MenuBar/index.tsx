@@ -72,9 +72,10 @@ const MenuBar: React.FC = (): JSX.Element => {
         color="teal"
         name="home"
         active={actived === "home"}
-        onClick={() =>
-          dispatch({ type: "SET_ACTIVE", payload: ActiveItem.Home })
-        }
+        onClick={() => {
+          dispatch({ type: "SET_ACTIVE", payload: ActiveItem.Home });
+          dispatch({ type: "SET_CUR_PAGE", payload: 1 });
+        }}
       >
         Home
       </Menu.Item>
@@ -84,9 +85,10 @@ const MenuBar: React.FC = (): JSX.Element => {
         color="teal"
         name="book"
         active={actived === "book"}
-        onClick={() =>
-          dispatch({ type: "SET_ACTIVE", payload: ActiveItem.Book })
-        }
+        onClick={() => {
+          dispatch({ type: "SET_ACTIVE", payload: ActiveItem.Book });
+          dispatch({ type: "SET_CUR_PAGE", payload: 1 });
+        }}
         onMouseOver={() => BookListPage.preload()}
       >
         Book
@@ -97,9 +99,10 @@ const MenuBar: React.FC = (): JSX.Element => {
         color="teal"
         name="author"
         active={actived === "author"}
-        onClick={() =>
-          dispatch({ type: "SET_ACTIVE", payload: ActiveItem.Author })
-        }
+        onClick={() => {
+          dispatch({ type: "SET_ACTIVE", payload: ActiveItem.Author });
+          dispatch({ type: "SET_CUR_PAGE", payload: 1 });
+        }}
         onMouseOver={() => AuthorListPage.preload()}
       >
         Author
