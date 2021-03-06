@@ -54,6 +54,7 @@ export type Page = {
     total: Number;
     count: Number;
     page: Number;
+    limit: Number;
   };
   data: Document[];
 };

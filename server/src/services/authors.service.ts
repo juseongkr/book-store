@@ -6,8 +6,9 @@ import { AuthorDto } from "../types";
 export const getAuthorPage = async (filterDto: FilterDto): Promise<Page> => {
   const { search, page } = filterDto;
   const filterQuery: MongooseFilterQuery<Pick<Document, "_id">> = {};
-  const start = (Number(page) - 1) * 20;
-  const end = start + 20;
+  const limit = 20;
+  const start = (Number(page) - 1) * limit;
+  const end = start + limit;
 
   if (search) {
     filterQuery.name = {
@@ -23,6 +24,7 @@ export const getAuthorPage = async (filterDto: FilterDto): Promise<Page> => {
     pagination: {
       total: authors.length,
       count: pagedAuthors.length,
+      limit,
       page,
     },
     data: pagedAuthors,
