@@ -5,7 +5,7 @@ Welcome to books store. 👋
 <img width="1000" alt="main" src="https://user-images.githubusercontent.com/10775915/110192662-ba2fd300-7e72-11eb-94ae-bc8df4beb0f7.png"></img>
 
 ## Demo page 👾
-https://book.juseong.me
+~~https://book.juseong.me~~
 
 ## Stacks 🏭
 <img width="300" alt="mern" src="https://user-images.githubusercontent.com/10775915/110192567-31189c00-7e72-11eb-8066-661332938132.jpg"></img>
